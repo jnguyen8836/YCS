@@ -52,11 +52,7 @@ public class Play extends Activity
 		 * In a real game, the user's chosen stage / level should be
 		 * passed to this activity.
 		 */
-		int stage = 1;
-		int level = 1;
-	    
-		Log.d("Tile Game Example", "Starting game at stage: " + stage + ", level: " + level);
-		mGameView = new GameView(mContext, this, stage, level, mScreenDensity);
+		mGameView = new GameView(mContext, this);
 
 		setContentView(mGameView);
 	}

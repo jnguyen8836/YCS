@@ -48,80 +48,34 @@ import android.view.SurfaceView;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
-//	private static final int CONTROLS_PADDING = 10;
-
-	private static final int START_STAGE = 1;
-	private static final int START_LEVEL = 1;
-
-//	private static final int DIRECTION_UP = 1;
-//	private static final int DIRECTION_DOWN = 2;
-//	private static final int DIRECTION_LEFT = 3;
-//	private static final int DIRECTION_RIGHT = 4;
 
 	public static final int STATE_RUNNING = 1;
 	public static final int STATE_PAUSED = 2;
 
 	private int mScreenXMax = 0;
 	private int mScreenYMax = 0;
-//	private int mScreenXCenter = 0;
-//	private int mScreenYCenter = 0;
 	private int mScreenXOffset = 0;
 	private int mScreenYOffset = 0;
 
-//	private float mScreenDensity;
-	
 	private Context mGameContext;
 	private Play mGameActivity;
 	private SurfaceHolder mGameSurfaceHolder = null;
 
 	private boolean updatingGameTiles = false;
 
-//	private GameTileData mGameTileData = null;
-//	private GameLevelTileData mGameLevelTileData = null;
-
-//	private PlayerUnit mPlayerUnit = null;
-
-	private int mPlayerStage = START_STAGE;
-	private int mPlayerLevel = START_LEVEL;
-
 	private Bitmap mBackgroundImage = null;
 
 	private int mGameState;
 
 	private boolean mGameRun = true;
-
-//	private boolean mPlayerMoving = false;
-//	private int mPlayerVerticalDirection = 0;
-//	private int mPlayerHorizontalDirection = 0;
-
-//	private GameUi mCtrlUpArrow = null;
-//	private GameUi mCtrlDownArrow = null;
-//	private GameUi mCtrlLeftArrow = null;
-//	private GameUi mCtrlRightArrow = null;
 	
 	private Paint mUiTextPaint = null;
 	private String mLastStatusMessage = "";
 
 	/**
-	 * Templates defining all available game tiles.
-	 */
-	private HashMap<Integer, ArrayList<Integer>> mGameTileTemplates = null;
-
-	/**
-	 * Bitmap instances for each game tile type.
-	 */
-	private HashMap<Integer, Bitmap> mGameTileBitmaps = new HashMap<Integer, Bitmap>();
-
-	/**
 	 * GameTile instances for each game tile used by the current level.
 	 */
 	private List<GameTile> mGameTiles = Collections.synchronizedList(new ArrayList<GameTile>());
-
-//	private int mPlayerStartTileX = 0;
-//	private int mPlayerStartTileY = 0;
-//	
-	private int mTileWidth = 0;
-	private int mTileHeight = 0;
 
 	class GameThread extends Thread
 	{
@@ -138,10 +92,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			Display display = mGameActivity.getWindowManager().getDefaultDisplay();
 			mScreenXMax = display.getWidth();
 			mScreenYMax = display.getHeight();
-//			mScreenXCenter = (mScreenXMax / 2);
-//			mScreenYCenter = (mScreenYMax / 2);
-
-//			setGameStartState();
+			Log.d("HungryCharlie", "Screen X: " + mScreenXMax + ", Y: " + mScreenYMax);
 		}
 
 		/**
@@ -197,11 +148,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 					c = mGameSurfaceHolder.lockCanvas(null);
 					synchronized (mGameSurfaceHolder)
 					{
-//						if (mGameState == STATE_RUNNING)
-//						{
-//							updatePlayerUnit();
-//						}
-
 						doDraw(c);
 					}
 				} finally
@@ -245,44 +191,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 
 		/**
-		 * Centers the game view around the location of the player unit.
-		 */
-//		private void centerView()
-//		{
-//			mPlayerUnit.setUnmodifiedX(mPlayerUnit.getX() + mScreenXCenter);
-//			mPlayerUnit.setUnmodifiedY(mPlayerUnit.getY() + mScreenYCenter);
-//
-//			mScreenXOffset = (mPlayerUnit.getX() - mScreenXCenter);
-//			mScreenYOffset = (mPlayerUnit.getY() - mScreenYCenter);
-//
-//			mPlayerUnit.setX(mScreenXCenter);
-//			mPlayerUnit.setY(mScreenYCenter);
-//		}
-
-		/**
 		 * Draws all visual elements of the game.
 		 * @param Canvas canvas
 		 */
 		private void doDraw(Canvas canvas)
 		{
-//			centerView();
-
 			if (canvas != null)
 			{
-				canvas.drawBitmap(mBackgroundImage, 0, 0, null);
-
 				if (!updatingGameTiles)
 				{
 					drawGameTiles(canvas);
 				}
-
-//				if (mPlayerUnit != null)
-//				{
-//					canvas.drawBitmap(mPlayerUnit.getBitmap(), mPlayerUnit.getX(),
-//						mPlayerUnit.getY(), null);
-//				}
-
-//				drawControls(canvas);
 
 				canvas.drawText(mLastStatusMessage, 30, 50, mUiTextPaint);
 			}
@@ -311,133 +230,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				}				
 			}
 		}
-
-		/**
-		 * Draws the game controls.
-		 * @param Canvas canvas
-		 */
-//		private void drawControls(Canvas canvas)
-//		{
-//			canvas.drawBitmap(mCtrlUpArrow.getBitmap(), mCtrlUpArrow.getX(), mCtrlUpArrow.getY(), null);
-//			canvas.drawBitmap(mCtrlDownArrow.getBitmap(), mCtrlDownArrow.getX(), mCtrlDownArrow.getY(), null);
-//			canvas.drawBitmap(mCtrlLeftArrow.getBitmap(), mCtrlLeftArrow.getX(), mCtrlLeftArrow.getY(), null);
-//			canvas.drawBitmap(mCtrlRightArrow.getBitmap(), mCtrlRightArrow.getX(), mCtrlRightArrow.getY(), null);
-//		}
-
-		/**
-		 * Updates the direction, position and state of the player unit.
-		 */
-//		private void updatePlayerUnit()
-//		{
-//			GameTile collisionTile = null;
-
-//			if (mPlayerMoving)
-//			{
-//				int differenceX = 0;
-//				int differenceY = 0;
-//				int newX = mPlayerUnit.getX();
-//				int newY = mPlayerUnit.getY();
-//
-//				if (mPlayerHorizontalDirection != 0)
-//				{
-//					differenceX = (mPlayerHorizontalDirection == DIRECTION_RIGHT) ? getPixelValueForDensity(PlayerUnit.SPEED) : getPixelValueForDensity(-PlayerUnit.SPEED);
-//					newX = (mPlayerUnit.getX() + differenceX);
-//				}
-//
-//				if (mPlayerVerticalDirection != 0)
-//				{
-//					differenceY = (mPlayerVerticalDirection == DIRECTION_DOWN) ? getPixelValueForDensity(PlayerUnit.SPEED) : getPixelValueForDensity(-PlayerUnit.SPEED);
-//					newY = (mPlayerUnit.getY() + differenceY);
-//				}
-//
-//				collisionTile = getCollisionTile(newX, newY, mPlayerUnit.getWidth(), mPlayerUnit .getHeight());
-//
-//				if ((collisionTile != null)
-//						&& collisionTile.isBlockerTile())
-//				{
-//					handleTileCollision(collisionTile);
-//				} else
-//				{
-//					mPlayerUnit.setX(newX);
-//					mPlayerUnit.setY(newY);
-//				}
-//			}
-//		}
-
-		/**
-		 * Detects a collision between a game unit and a game tile,
-		 * returns the collision tile if available.
-		 * 
-		 * @param x - The X (horizontal) position of the game unit. 
-		 * @param y - The Y (vertical) position of the game unit.
-		 * @param width - The width of the game unit.
-		 * @param height - The height of the game unit.
-		 * @return GameTile - The collision game tile, if available.
-		 */
-//		private GameTile getCollisionTile(int x, int y, int width, int height)
-//		{
-//			GameTile gameTile = null;
-//
-//			int gameTilesSize = mGameTiles.size();
-//			for (int i = 0; i < gameTilesSize; i++)
-//			{
-//				gameTile = (GameTile) mGameTiles.get(i);
-//				if ((gameTile != null) && gameTile.isCollisionTile())
-//				{
-//					// Make sure tiles don't collide with themselves
-//					if ((gameTile.getX() == x) && (gameTile.getY() == y))
-//					{
-//						continue;
-//					}
-//
-//					if (gameTile.getCollision(x, y, width, height))
-//					{
-//						return gameTile;
-//					}
-//				}
-//			}
-//			return null;
-//		}
-
-		/**
-		 * Handles a collision between the player unit and a game tile.
-		 * @param GameTile gameTile - The collision game tile.
-		 */
-//		private void handleTileCollision(GameTile gameTile)
-//		{
-//			if (gameTile != null)
-//			{
-//				switch (gameTile.getType())
-//				{
-//				case GameTile.TYPE_DANGEROUS:
-//					handleDangerousTileCollision();
-//					break;
-//				case GameTile.TYPE_EXIT:
-//					handleExitTileCollision();
-//					break;
-//				default:
-//					mLastStatusMessage = "Collision with regular tile";
-//				}
-//			}
-//		}
-
-		/**
-		 * Handles a collision between the player unit and a dangerous
-		 * game tile.
-		 */
-//		private void handleDangerousTileCollision()
-//		{
-//			mLastStatusMessage = "Collision with dangerous tile";
-//		}
-
-		/**
-		 * Handles a collision between the player unit and an exit
-		 * game tile.
-		 */
-//		private void handleExitTileCollision()
-//		{
-//			mLastStatusMessage = "Collision with exit tile";
-//		}
 	}
 
 	private GameThread thread;
@@ -450,23 +242,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 * @param int level - The level to load.
 	 * @param float screenDensity - The screen density.
 	 */
-	public GameView(Context context, Play activity, int stage, int level, float screenDensity)
+	public GameView(Context context, Play activity)
 	{
 		super(context);
 
 		mGameContext = context;
 		mGameActivity = activity;
 		
-//		mScreenDensity = screenDensity;
-//
-		mPlayerStage = stage;
-		mPlayerLevel = level;
-
-//		mGameTileData = new GameTileData(context);
-//		mGameLevelTileData = new GameLevelTileData(context);
-//
-//		mGameTileTemplates = mGameTileData.getTilesData();
-
 		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
 
@@ -572,22 +354,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	public void generateRow() {
 		updatingGameTiles = true;
+		GameTile x = new GameTile(mGameContext, R.drawable.safe_tile, new Point(0, 0));
+
 		synchronized(mGameTiles) {
 			Iterator<GameTile> it = mGameTiles.iterator();
 			GameTile g;
 			while (it.hasNext()) {
 				g = it.next();
-				g.setY(g.getY() + mScreenYMax / 4);
-				if (g.getY() >= mScreenYMax) {
+				g.setY(g.getY() + x.getHeight());
+				if (g.getY() >= x.getHeight()*5) {
 					it.remove();
 				}
 			}
 
 			Random r = new Random();
-			int safe = r.nextInt(4);
+			int safe = r.nextInt(5);
 			GameTile gameTile;
-			for (int i = 0; i < 4; i++) {
-				Point point = new Point(i * mScreenXMax / 4, 0);
+			for (int i = 0; i < 5; i++) {
+				Point point = new Point(i * x.getWidth(), 0);
 				int drawable = (i == safe) ? R.drawable.safe_tile : R.drawable.danger_tile;
 				gameTile = new GameTile(mGameContext, drawable, point);
 				gameTile.setType((i == safe) ? GameTile.TYPE_EMPTY : GameTile.TYPE_DANGEROUS);
@@ -622,257 +406,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						// TODO: show "You lost" message
 					}	
 				}
-				
-//				if (mCtrlUpArrow.getImpact(x, y))
-//				{
-//					Log.d("Tile Game Example", "Pressed up arrow");
-//					mLastStatusMessage = "Moving up";
-//					mPlayerVerticalDirection = DIRECTION_UP;
-//					mPlayerMoving = true;
-//				}
-//				else if (mCtrlDownArrow.getImpact(x, y))
-//				{
-//					Log.d("Tile Game Example", "Pressed down arrow");
-//					mLastStatusMessage = "Moving down";
-//					mPlayerVerticalDirection = DIRECTION_DOWN;
-//					mPlayerMoving = true;
-//				}
-//				else if (mCtrlLeftArrow.getImpact(x, y))
-//				{
-//					Log.d("Tile Game Example", "Pressed left arrow");
-//					mLastStatusMessage = "Moving left";
-//					mPlayerHorizontalDirection = DIRECTION_LEFT;
-//					mPlayerMoving = true;
-//				}
-//				else if (mCtrlRightArrow.getImpact(x, y))
-//				{
-//					Log.d("Tile Game Example", "Pressed right arrow");
-//					mLastStatusMessage = "Moving right";
-//					mPlayerHorizontalDirection = DIRECTION_RIGHT;
-//					mPlayerMoving = true;
-//				}
 			}
 
 			break;
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
-//			mPlayerMoving = false;
-//			mPlayerVerticalDirection = 0;
-//			mPlayerHorizontalDirection = 0;
-			break;
 		}
 
 		return true;
 	}
-
-	/**
-	 * Initializes and sets the on-screen position of the game controls. 
-	 */
-//	private void setControlsStart()
-//	{
-//		if (mCtrlDownArrow == null)
-//		{
-//			mCtrlDownArrow = new GameUi(mGameContext, R.drawable.ctrl_down_arrow);
-//			
-//			mCtrlDownArrow.setX(mScreenXMax - ((mCtrlDownArrow.getWidth() * 2) + getPixelValueForDensity(CONTROLS_PADDING)));
-//			mCtrlDownArrow.setY(mScreenYMax - (mCtrlDownArrow.getHeight() + getPixelValueForDensity(CONTROLS_PADDING)));
-//		}
-//
-//		if (mCtrlUpArrow == null)
-//		{
-//			mCtrlUpArrow = new GameUi(mGameContext, R.drawable.ctrl_up_arrow);
-//			
-//			mCtrlUpArrow.setX(mCtrlDownArrow.getX());
-//			mCtrlUpArrow.setY(mCtrlDownArrow.getY() - (mCtrlUpArrow.getHeight() * 2));
-//		}
-//
-//		if (mCtrlLeftArrow == null)
-//		{
-//			mCtrlLeftArrow = new GameUi(mGameContext, R.drawable.ctrl_left_arrow);
-//			mCtrlLeftArrow.setX(mCtrlDownArrow.getX() - mCtrlLeftArrow.getWidth());
-//			mCtrlLeftArrow.setY(mCtrlDownArrow.getY() - mCtrlLeftArrow.getHeight());
-//		}
-//
-//		if (mCtrlRightArrow == null)
-//		{
-//			mCtrlRightArrow = new GameUi(mGameContext, R.drawable.ctrl_right_arrow);
-//			
-//			mCtrlRightArrow.setX(mScreenXMax - (mCtrlLeftArrow.getWidth() + getPixelValueForDensity(CONTROLS_PADDING)));
-//			mCtrlRightArrow.setY(mCtrlLeftArrow.getY());
-//		}
-//	}
-	
-	/**
-	 * Initializes and sets the starting location of the player unit.
-	 */
-//	private void setPlayerStart()
-//	{
-//		if (mPlayerUnit == null)
-//		{
-//			mPlayerUnit = new PlayerUnit(mGameContext, R.drawable.player_unit);
-//		}
-//
-//		int playerStartX = (mPlayerStartTileX * mPlayerUnit.getWidth());
-//		int playerStartY = (mPlayerStartTileY * mPlayerUnit.getHeight());
-//
-//		Log.d("Tile Game Example", "Player unit starting at X: " + playerStartX + ", Y: " + playerStartY);
-//
-//		mPlayerUnit.setX(playerStartX);
-//		mPlayerUnit.setY(playerStartY);
-//		mPlayerUnit.setUnmodifiedX(0);
-//		mPlayerUnit.setUnmodifiedY(0);
-//	}
-	
-	/**
-	 * Parses game level data to create a tile-based level.
-	 * Tile positioning logic expects all game tiles to
-	 * maintain a consistent width and height.
-	 */
-	private void parseGameLevelData()
-	{
-		updatingGameTiles = true;
-
-//		ArrayList<String> gameLevelData = mGameLevelTileData.getGameLevelData(mPlayerStage, mPlayerLevel);
-
-//		String levelTileData = gameLevelData.get(GameLevelTileData.FIELD_ID_TILE_DATA);
-
-//		if (levelTileData == null)
-//		{
-//			return;
-//		}
-
-		// Get player start position.
-//		mPlayerStartTileX = Integer.parseInt(gameLevelData.get(GameLevelTileData.FIELD_ID_PLAYER_START_TILE_X));
-//		mPlayerStartTileY = Integer.parseInt(gameLevelData.get(GameLevelTileData.FIELD_ID_PLAYER_START_TILE_Y));
-
-		// Clear any existing loaded game tiles.
-		mGameTiles.clear();
-
-		// Split level tile data by line.
-//		String[] tileLines = levelTileData.split(GameLevelTileData.TILE_DATA_LINE_BREAK);
-
-		Bitmap bitmap = null;
-		Point tilePoint = new Point(0, 0);
-		int tileX = 0;
-		int tileY = 0;
-
-		int tileKey = 0;
-
-		// Loop through each line of the level tile data.
-//		for (String tileLine : tileLines)
-//		{
-//			tileX = 0;
-//
-//			// Split tile data line by tile delimiter, producing an array of tile IDs.
-//			String[] tiles = tileLine.split(",");
-//
-//			// Loop through the tile IDs, creating a new GameTile instance for each one.
-//			for (String tile : tiles)
-//			{
-//				// Get tile definition for the current tile ID.
-//				ArrayList<Integer> tileData = mGameTileTemplates.get(Integer.parseInt(tile));
-//
-//				// Check for valid tile data.
-//				if ((tileData != null)
-//						&& (tileData.size() > 0)
-//						&& (tileData.get(GameTileData.FIELD_ID_DRAWABLE) > 0))
-//				{
-//					// Set tile position.
-//					tilePoint.x = tileX;
-//					tilePoint.y = tileY;
-//					
-//					GameTile gameTile = new GameTile(mGameContext, tilePoint);
-//
-//					// Set tile bitmap.
-//					bitmap = setAndGetGameTileBitmap(tileData.get(GameTileData.FIELD_ID_DRAWABLE));
-//					gameTile.setBitmap(bitmap);
-//
-//					// Set tile type.
-//					gameTile.setType(tileData.get(GameTileData.FIELD_ID_TYPE));
-//
-//					// Set tile visibility.
-//					if (tileData.get(GameTileData.FIELD_ID_VISIBLE) == 0)
-//					{
-//						gameTile.setVisible(false);
-//					}
-//
-//					gameTile.setKey(tileKey);
-//
-//					// If undefined, set global tile width / height values.
-//					if (mTileWidth == 0)
-//					{
-//						mTileWidth = gameTile.getWidth();
-//					}
-//					if (mTileHeight == 0)
-//					{
-//						mTileHeight = gameTile.getHeight();
-//					}
-//					
-//					// Add new game tile to loaded game tiles.
-//					mGameTiles.add(gameTile);
-//
-//					tileKey++;
-//				}
-//
-//				// Increment next tile X (horizontal) position by tile width.
-//				tileX += mTileWidth;
-//			}
-//
-//			// Increment next tile Y (vertical) position by tile width.
-//			tileY += mTileHeight;
-//		}
-
-//		updatingGameTiles = false;
-	}
-	
-	/**
-	 * Sets the state for a new game.
-	 */
-//	private void setGameStartState()
-//	{
-//		setControlsStart();
-//		setPlayerStart();
-//	}
 	
 	/**
 	 * Loads and starts the current level.
 	 */
 	private void startLevel()
 	{
-		//parseGameLevelData();
-//		setPlayerStart();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 			generateRow();
 		}
 
 		thread.unpause();
 	}
 
-	/**
-	 * Stores a bitmap for use by a game tile in a level.
-	 * @param int resourceId - The bitmap resource ID.
-	 * @return Bitmap - The Bitmap instance for the given resource ID.
-	 */
-	private Bitmap setAndGetGameTileBitmap(int resourceId)
-	{
-		if (!mGameTileBitmaps.containsKey(resourceId))
-		{
-			BitmapFactory.Options opts = new BitmapFactory.Options();
-			opts.inJustDecodeBounds = true;
-			Bitmap bitmap = BitmapFactory.decodeResource(mGameContext
-					.getResources(), resourceId);
-
-			if (bitmap != null)
-			{
-				mGameTileBitmaps.put(resourceId, bitmap);
-			}
-		}
-
-		return mGameTileBitmaps.get(resourceId);
-	}
-	
-//	private int getPixelValueForDensity(int pixels)
-//	{
-//		return (int) (pixels * mScreenDensity);
-//	}
 }
