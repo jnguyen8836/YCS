@@ -1,10 +1,14 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import com.gmail.jnguyendev.hungrycharlie.R;
+import com.gmail.jnguyendev.hungrycharlie.data.GameTileData;
 
 //import com.gmail.jnguyendev.hungrycharlie.PlayerUnit;
 
@@ -111,7 +115,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	/**
 	 * GameTile instances for each game tile used by the current level.
 	 */
-	private List<GameTile> mGameTiles = new ArrayList<GameTile>();
+	private List<GameTile> mGameTiles = Collections.synchronizedList(new ArrayList<GameTile>());
 
 //	private int mPlayerStartTileX = 0;
 //	private int mPlayerStartTileY = 0;
@@ -290,23 +294,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		 */
 		private void drawGameTiles(Canvas canvas)
 		{
-			int gameTilesSize = mGameTiles.size();
-			for (int i = 0; i < gameTilesSize; i++)
-			{
-				if (mGameTiles.get(i) != null)
-				{
-					mGameTiles.get(i).setX(
-							mGameTiles.get(i).getX() - mScreenXOffset);
-					mGameTiles.get(i).setY(
-							mGameTiles.get(i).getY() - mScreenYOffset);
-
-					if (mGameTiles.get(i).isVisible())
+			synchronized(mGameTiles) {
+				Iterator<GameTile> it = mGameTiles.iterator();
+				GameTile g;
+				while (it.hasNext()) {
+					g = it.next();
+					if (g != null)
 					{
-						canvas.drawBitmap(mGameTiles.get(i).getBitmap(),
-								mGameTiles.get(i).getX(), mGameTiles.get(i)
-										.getY(), null);
+						g.setX(g.getX() - mScreenXOffset);
+						g.setY(g.getY() - mScreenYOffset);
+						if (g.isVisible())
+						{
+							canvas.drawBitmap(g.getBitmap(), g.getX(), g.getY(), null);
+						}
 					}
-				}
+				}				
 			}
 		}
 
@@ -551,6 +553,50 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
+	private GameTile findSafeTile() {
+		GameTile max = null;
+		synchronized(mGameTiles) {
+			Iterator<GameTile> it = mGameTiles.iterator();
+			GameTile g;
+			while (it.hasNext()) {
+				g = it.next();
+				if (!g.isDangerous()) {
+					if (max == null || g.getY() > max.getY()) {
+						max = g;
+					}
+				}
+			}
+		}
+		return max;
+	}
+	
+	public void generateRow() {
+		updatingGameTiles = true;
+		synchronized(mGameTiles) {
+			Iterator<GameTile> it = mGameTiles.iterator();
+			GameTile g;
+			while (it.hasNext()) {
+				g = it.next();
+				g.setY(g.getY() + mScreenYMax / 4);
+				if (g.getY() >= mScreenYMax) {
+					it.remove();
+				}
+			}
+
+			Random r = new Random();
+			int safe = r.nextInt(4);
+			GameTile gameTile;
+			for (int i = 0; i < 4; i++) {
+				Point point = new Point(i * mScreenXMax / 4, 0);
+				int drawable = (i == safe) ? R.drawable.safe_tile : R.drawable.danger_tile;
+				gameTile = new GameTile(mGameContext, drawable, point);
+				gameTile.setType((i == safe) ? GameTile.TYPE_EMPTY : GameTile.TYPE_DANGEROUS);
+				mGameTiles.add(gameTile);
+			}
+		}
+		updatingGameTiles = false;
+	}
+	
 	/**
 	 * Detects and handles touch events from the user.
 	 * @param MotionEvent event
@@ -560,15 +606,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public boolean onTouchEvent(MotionEvent event)
 	{
 		int eventAction = event.getAction();
-
 		switch (eventAction)
 		{
 		case MotionEvent.ACTION_DOWN:
 
 			if (mGameState == STATE_RUNNING)
 			{
-//				final int x = (int) event.getX();
-//				final int y = (int) event.getY();
+				final int x = (int) event.getX();
+				final int y = (int) event.getY();
+				GameTile safe = findSafeTile();
+				if (safe != null) {
+					if (safe.getImpact(x, y)) {
+						generateRow();
+					} else {
+						// TODO: show "You lost" message
+					}	
+				}
 				
 //				if (mCtrlUpArrow.getImpact(x, y))
 //				{
@@ -786,8 +839,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 */
 	private void startLevel()
 	{
-		parseGameLevelData();
+		//parseGameLevelData();
 //		setPlayerStart();
+		for (int i = 0; i < 4; i++) {
+			generateRow();
+		}
 
 		thread.unpause();
 	}

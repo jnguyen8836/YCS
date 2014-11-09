@@ -68,6 +68,20 @@ public class GameTile extends GameImage
 		return (gameUnit.getRect().intersects(this.mX, this.mY, (this.mX + mWidth), (this.mY + mHeight)));
 	}
 
+	
+	public boolean getImpact(int x, int y)
+	{
+		if ((x >= mX) && (x <= (mX + this.getWidth())))
+		{
+			if ((y >= mY) && (y <= (mY + this.getHeight())))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
 	public int getKey()
 	{
 		return this.mKey;
