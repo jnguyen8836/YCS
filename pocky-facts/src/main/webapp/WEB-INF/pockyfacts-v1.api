@@ -1,0 +1,141 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://fluted-magpie.appspot.com/_ah/api",
+  "name" : "pockyfacts",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://fluted-magpie.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "pockyfacts.yummychocosticks.edu",
+  "ownerName" : "pockyfacts.yummychocosticks.edu",
+  "methods" : {
+    "pockyfacts.getFact" : {
+      "path" : "fact",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "891572910799-5rca7mf4uludmfuqhput4a64i30eoa7c.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.yummychocosticks.pockyfacts.PockyAPI.getFact",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "pockyfacts.deleteFact" : {
+      "path" : "fact",
+      "httpMethod" : "delete",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "891572910799-5rca7mf4uludmfuqhput4a64i30eoa7c.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.yummychocosticks.pockyfacts.PockyAPI.deleteFact",
+      "request" : {
+        "parameters" : {
+          "fact" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "pockyfacts.createFact" : {
+      "path" : "fact",
+      "httpMethod" : "post",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "891572910799-5rca7mf4uludmfuqhput4a64i30eoa7c.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.yummychocosticks.pockyfacts.PockyAPI.createFact",
+      "request" : {
+        "parameters" : {
+          "fact" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "pockyfacts.getRandomFact" : {
+      "path" : "fact/random",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "891572910799-5rca7mf4uludmfuqhput4a64i30eoa7c.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.yummychocosticks.pockyfacts.PockyAPI.getRandomFact",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "PockyFactEntity" : {
+        "id" : "PockyFactEntity",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "fact" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "edu.yummychocosticks.pockyfacts.PockyAPI.getFact" : {
+        "response" : {
+          "$ref" : "PockyFactEntity"
+        }
+      },
+      "edu.yummychocosticks.pockyfacts.PockyAPI.deleteFact" : {
+      },
+      "edu.yummychocosticks.pockyfacts.PockyAPI.createFact" : {
+      },
+      "edu.yummychocosticks.pockyfacts.PockyAPI.getRandomFact" : {
+        "response" : {
+          "$ref" : "PockyFactEntity"
+        }
+      }
+    }
+  }
+}
