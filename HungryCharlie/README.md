@@ -16,7 +16,7 @@ This is a game similar to Piano Tiles/Don't Touch the White Tile. The source cod
 
 ## Important Files
 
-*src/org/ruscoe/example/tilegame/GameView.java*
+*src/com/gmail/jnguyendev/hungrycharlie/GameView.java*
 
 This generates the game view and handles all game logic and user input.
 
