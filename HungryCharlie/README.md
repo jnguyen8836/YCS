@@ -1,12 +1,8 @@
-# Android Tile-Based Game
+# Hungry Charlie
 
-This is an example of a basic tile-based, 2D game using Android's Canvas. It can be used as a base for your own games.
+This is a game similar to Piano Tiles/Don't Touch the White Tile. The source code was taken from the Android game [Radius](http://ruscoe.org/projects/radius/) and heavily modified. As described by the original author,
 
-This code provides a simple way to build maps based on your own tiles, player movement / tracking and detection of collisions with any number of different tile types.
-
-This code is used in the Android game [Radius](http://ruscoe.org/projects/radius/).
-
-![Android Tile-Based Game screen shot](http://ruscoe.org/assets/images/projects/android-tile-game.png)
+"This is an example of a basic tile-based, 2D game using Android's Canvas. It can be used as a base for your own games."
 
 ## Requirements
 
@@ -15,22 +11,14 @@ This code is used in the Android game [Radius](http://ruscoe.org/projects/radius
 
 ## Usage
 
-* Import the Android Tile-Based Game project into Eclipse.
+* Import the HungryCharlie project into Eclipse.
 * Build the project as an Android application.
 
 ## Important Files
 
-*src/org/ruscoe/example/tilegame/data/GameDAO.java*
-
-This file populates the games database with tile and map data.
-
-The file contains an example of custom tile definitions and how to use those tiles to build custom maps for your game's levels.
-
 *src/org/ruscoe/example/tilegame/GameView.java*
 
 This generates the game view and handles all game logic and user input.
-
-The function *parseGameLevelData* shows how the tile and map data in the database is translated into a playable game level.
 
 ## License
 
