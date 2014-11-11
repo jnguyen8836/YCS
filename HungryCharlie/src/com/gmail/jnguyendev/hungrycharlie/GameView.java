@@ -2,18 +2,9 @@ package com.gmail.jnguyendev.hungrycharlie;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import com.gmail.jnguyendev.hungrycharlie.R;
-import com.gmail.jnguyendev.hungrycharlie.data.GameTileData;
-
-//import com.gmail.jnguyendev.hungrycharlie.PlayerUnit;
-
-//import com.gmail.jnguyendev.hungrycharlie.data.GameLevelTileData;
-//import com.gmail.jnguyendev.hungrycharlie.data.GameTileData;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -25,11 +16,15 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+//import com.gmail.jnguyendev.hungrycharlie.PlayerUnit;
+//import com.gmail.jnguyendev.hungrycharlie.data.GameLevelTileData;
+//import com.gmail.jnguyendev.hungrycharlie.data.GameTileData;
 
 /**
  * The game view and main game thread.
@@ -51,6 +46,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	public static final int STATE_RUNNING = 1;
 	public static final int STATE_PAUSED = 2;
+	public static final int STATE_FINISHED = 3;
 
 	private int mScreenXMax = 0;
 	private int mScreenYMax = 0;
@@ -71,6 +67,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	private Paint mUiTextPaint = null;
 	private String mLastStatusMessage = "";
+	
+	private int tileCount = 0;
+	private int tapCount = 0;
+	private int MAX_TILES = 10;
+	
+	private long startTime = SystemClock.elapsedRealtime();
+	private long currentTime;
 
 	/**
 	 * GameTile instances for each game tile used by the current level.
@@ -203,8 +206,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				{
 					drawGameTiles(canvas);
 				}
-
-				canvas.drawText(mLastStatusMessage, 30, 50, mUiTextPaint);
+				
+				
+				if(mGameState != GameView.STATE_FINISHED) {
+					currentTime = SystemClock.elapsedRealtime() - startTime;
+					
+	//				canvas.drawText("Howdy!"/*mLastStatusMessage*/, 30, 50, mUiTextPaint);
+				}
+				canvas.drawText(String.format("%02d:%02d.%03d", currentTime/60000, currentTime/1000 % 60, currentTime % 1000), 30, 50, mUiTextPaint);
 			}
 		}
 
@@ -260,7 +269,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 		mUiTextPaint = new Paint();
 		mUiTextPaint.setStyle(Paint.Style.FILL);
-		mUiTextPaint.setColor(Color.YELLOW);
+		mUiTextPaint.setColor(Color.RED);
 		mUiTextPaint.setAntiAlias(true);
 		
 		Typeface uiTypeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Molot.otf");
@@ -270,6 +279,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 		mUiTextPaint.setTextSize(mGameContext.getApplicationContext().getResources().getDimensionPixelSize(R.dimen.ui_text_size));
 
+		Point point = new Point(0, -1*MAX_TILES*mScreenYMax/4 - mScreenYMax);
+		GameTile gameTile = new GameTile(mGameContext, R.drawable.canvas_bg_01, point);
+		gameTile.setBitmap(Bitmap.createScaledBitmap(gameTile.getBitmap(), mScreenXMax, mScreenYMax, false));
+		mGameTiles.add(gameTile);
+		
 		startLevel();
 		thread.doStart();
 	}
@@ -366,18 +380,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 					it.remove();
 				}
 			}
-
-			Random r = new Random();
-			int safe = r.nextInt(4);
-			GameTile gameTile;
-			for (int i = 0; i < 4; i++) {
-				Point point = new Point(i * mScreenXMax/4, 0);
-				int drawable = (i == safe) ? R.drawable.safe_tile : R.drawable.danger_tile;
-				gameTile = new GameTile(mGameContext, drawable, point);
-				gameTile.setBitmap(Bitmap.createScaledBitmap(gameTile.getBitmap(), mScreenXMax/4, mScreenYMax/4, false));
-				gameTile.setType((i == safe) ? GameTile.TYPE_EMPTY : GameTile.TYPE_DANGEROUS);
-				mGameTiles.add(gameTile);
+			
+			if(tileCount < MAX_TILES) {
+				Random r = new Random();
+				int safe = r.nextInt(4);
+				GameTile gameTile;
+				for (int i = 0; i < 4; i++) {
+					Point point = new Point(i * mScreenXMax/4, 0);
+					int drawable = (i == safe) ? R.drawable.safe_tile : R.drawable.danger_tile;
+					gameTile = new GameTile(mGameContext, drawable, point);
+					gameTile.setBitmap(Bitmap.createScaledBitmap(gameTile.getBitmap(), mScreenXMax/4, mScreenYMax/4, false));
+					gameTile.setType((i == safe) ? GameTile.TYPE_EMPTY : GameTile.TYPE_DANGEROUS);
+					mGameTiles.add(gameTile);
+				}
+				tileCount++;
 			}
+			
 		}
 		updatingGameTiles = false;
 	}
@@ -403,7 +421,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				if (safe != null) {
 					if (safe.getImpact(x, y)) {
 						generateRow();
-					} else {
+						if(tapCount < MAX_TILES - 1) {
+							tapCount++;
+						}
+						else {	
+							thread.setState(STATE_FINISHED);
+						}
+						
+					} 
+					else {
 						// TODO: show "You lost" message
 					}	
 				}
@@ -422,9 +448,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 */
 	private void startLevel()
 	{
+		
+		
 		for (int i = 0; i < 4; i++) {
 			generateRow();
 		}
+		
 
 		thread.unpause();
 	}
