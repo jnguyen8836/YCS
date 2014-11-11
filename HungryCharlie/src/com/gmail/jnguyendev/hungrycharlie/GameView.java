@@ -92,6 +92,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			Display display = mGameActivity.getWindowManager().getDefaultDisplay();
 			mScreenXMax = display.getWidth();
 			mScreenYMax = display.getHeight();
+
 			Log.d("HungryCharlie", "Screen X: " + mScreenXMax + ", Y: " + mScreenYMax);
 		}
 
@@ -354,26 +355,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	public void generateRow() {
 		updatingGameTiles = true;
-		GameTile x = new GameTile(mGameContext, R.drawable.safe_tile, new Point(0, 0));
 
 		synchronized(mGameTiles) {
 			Iterator<GameTile> it = mGameTiles.iterator();
 			GameTile g;
 			while (it.hasNext()) {
 				g = it.next();
-				g.setY(g.getY() + x.getHeight());
-				if (g.getY() >= x.getHeight()*5) {
+				g.setY(g.getY() + mScreenYMax/4);
+				if (g.getY() >= mScreenYMax) {
 					it.remove();
 				}
 			}
 
 			Random r = new Random();
-			int safe = r.nextInt(5);
+			int safe = r.nextInt(4);
 			GameTile gameTile;
-			for (int i = 0; i < 5; i++) {
-				Point point = new Point(i * x.getWidth(), 0);
+			for (int i = 0; i < 4; i++) {
+				Point point = new Point(i * mScreenXMax/4, 0);
 				int drawable = (i == safe) ? R.drawable.safe_tile : R.drawable.danger_tile;
 				gameTile = new GameTile(mGameContext, drawable, point);
+				gameTile.setBitmap(Bitmap.createScaledBitmap(gameTile.getBitmap(), mScreenXMax/4, mScreenYMax/4, false));
 				gameTile.setType((i == safe) ? GameTile.TYPE_EMPTY : GameTile.TYPE_DANGEROUS);
 				mGameTiles.add(gameTile);
 			}
@@ -421,7 +422,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 */
 	private void startLevel()
 	{
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 4; i++) {
 			generateRow();
 		}
 
