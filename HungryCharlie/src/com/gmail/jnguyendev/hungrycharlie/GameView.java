@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -40,7 +41,6 @@ import android.view.SurfaceView;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
 {
-
 	public static final int STATE_RUNNING = 1;
 	public static final int STATE_PAUSED = 2;
 	public static final int STATE_FINISHED = 3;
@@ -313,7 +313,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			catch (InterruptedException e) {
 				Log.e("HungryCharlie", e.getMessage());
 			}
-		}
+		}		
 	}
 	
 	/**
@@ -397,6 +397,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 							}
 							else {	
 								thread.setState(STATE_FINISHED);
+								mGameActivity.recreate();
 							}
 						} 
 						else {

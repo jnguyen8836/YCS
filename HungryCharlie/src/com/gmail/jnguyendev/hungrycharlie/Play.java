@@ -1,12 +1,10 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -95,4 +93,9 @@ public class Play extends Activity
 		super.onPause();
 		mGameView.getThread().setState(GameView.STATE_PAUSED); // pause game when Activity pauses
 	}
+	
+	
+	
+	
+	
 }
