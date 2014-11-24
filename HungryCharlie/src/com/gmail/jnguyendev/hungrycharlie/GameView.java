@@ -22,9 +22,6 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-//import com.gmail.jnguyendev.hungrycharlie.PlayerUnit;
-//import com.gmail.jnguyendev.hungrycharlie.data.GameLevelTileData;
-//import com.gmail.jnguyendev.hungrycharlie.data.GameTileData;
 
 /**
  * The game view and main game thread.
@@ -38,7 +35,7 @@ import android.view.SurfaceView;
  * To see how game level data is parsed and turned into a playable, tile level,
  * see the function GameView.parseGameLevelData.
  * 
- * @author Dan Ruscoe (ruscoe.org)
+ * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen
  * @version 1.0
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
@@ -61,16 +58,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 	private Bitmap mBackgroundImage = null;
 
-	private int mGameState;
+	protected int mGameState;
 
 	private boolean mGameRun = true;
 	
 	private Paint mUiTextPaint = null;
-	private String mLastStatusMessage = "";
+//	private String mLastStatusMessage = "";
 	
 	private int tileCount = 0;
 	private int tapCount = 0;
-	private int MAX_TILES = 10;
+	private int MAX_TILES = 5;
 	
 	private long startTime = SystemClock.elapsedRealtime();
 	private long currentTime;
@@ -80,11 +77,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 */
 	private List<GameTile> mGameTiles = Collections.synchronizedList(new ArrayList<GameTile>());
 
-	class GameThread extends Thread
-	{
-		public GameThread(SurfaceHolder surfaceHolder, Context context,
-				Handler handler)
-		{
+	class GameThread extends Thread {
+		public GameThread(SurfaceHolder surfaceHolder, Context context, Handler handler) {
 			mGameSurfaceHolder = surfaceHolder;
 			mGameContext = context;
 
@@ -102,13 +96,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		/**
 		 * Callback invoked when the surface dimensions change.
 		 */
-		public void setSurfaceSize(int width, int height)
-		{
+		public void setSurfaceSize(int width, int height) {
 			// synchronized to make sure these all change atomically
-			synchronized (mGameSurfaceHolder)
-			{
-				mBackgroundImage = Bitmap.createScaledBitmap(mBackgroundImage,
-						width, height, true);
+			synchronized (mGameSurfaceHolder) {
+				mBackgroundImage = Bitmap.createScaledBitmap(mBackgroundImage, width, height, true);
 			}
 		}
 
@@ -116,16 +107,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		 * Sets the run status of the game loop inside the game thread.
 		 * @param boolean run - true when game should run, false otherwise.
 		 */
-		public void setRunning(boolean run)
-		{
+		public void setRunning(boolean run) {
 			mGameRun = run;
 		}
 
 		/**
 		 * Sets the game state to running.
 		 */
-		public void doStart()
-		{
+		public void doStart() {
 			setState(STATE_RUNNING);
 		}
 
@@ -133,8 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		 * Sets the game state
 		 * @param int mode - May be STATE_RUNNING or STATE_PAUSED
 		 */
-		public void setState(int state)
-		{
+		public void setState(int state) {
 			mGameState = state;
 		}
 		
@@ -142,39 +130,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		 * Contains the main game loop, which updates all elements of the game.
 		 */
 		@Override
-		public void run()
-		{
-			while (mGameRun)
-			{
+		public void run() {
+			while(mGameRun) {
 				Canvas c = null;
-				try
-				{
+				try {
 					c = mGameSurfaceHolder.lockCanvas(null);
-					synchronized (mGameSurfaceHolder)
-					{
+					synchronized(mGameSurfaceHolder) {
 						doDraw(c);
 					}
-				} finally
-				{
-					if (c != null)
-					{
+				} 
+				finally {
+					if(c != null) {
 						mGameSurfaceHolder.unlockCanvasAndPost(c);
 					}
 				}
 			}
-
 			return;
 		}
 
 		/**
 		 * Pauses the game.
 		 */
-		public void pause()
-		{
-			synchronized (mGameSurfaceHolder)
-			{
-				if (mGameState == STATE_RUNNING)
-				{
+		public void pause() {
+			synchronized(mGameSurfaceHolder) {
+				if(mGameState == STATE_RUNNING) {
 					setState(STATE_PAUSED);
 				}
 			}
@@ -183,12 +162,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		/**
 		 * Unpauses the game.
 		 */
-		public void unpause()
-		{
-			synchronized (mGameSurfaceHolder)
-			{
-				if (mGameState != STATE_RUNNING)
-				{
+		public void unpause() {
+			synchronized(mGameSurfaceHolder) {
+				if(mGameState != STATE_RUNNING) {
 					setState(STATE_RUNNING);
 				}
 			}
@@ -198,22 +174,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		 * Draws all visual elements of the game.
 		 * @param Canvas canvas
 		 */
-		private void doDraw(Canvas canvas)
-		{
-			if (canvas != null)
-			{
-				if (!updatingGameTiles)
-				{
+		private void doDraw(Canvas canvas) {
+			if(canvas != null) {
+				if(!updatingGameTiles) {
 					drawGameTiles(canvas);
 				}
-				
-				
-				if(mGameState != GameView.STATE_FINISHED) {
-					currentTime = SystemClock.elapsedRealtime() - startTime;
-					
-	//				canvas.drawText("Howdy!"/*mLastStatusMessage*/, 30, 50, mUiTextPaint);
-				}
-				canvas.drawText(String.format("%02d:%02d.%03d", currentTime/60000, currentTime/1000 % 60, currentTime % 1000), 30, 50, mUiTextPaint);
+
+				drawGameTimer(canvas);
+			}
+		}
+		
+		private void drawGameTimer(Canvas canvas) {
+			if(mGameState != GameView.STATE_FINISHED) {
+				currentTime = SystemClock.elapsedRealtime() - startTime;					
+			}
+			
+			if(currentTime/60000 > 0) {
+				canvas.drawText(String.format("%02d:%02d.%03d", currentTime/60000, currentTime/1000 % 60, currentTime % 1000), 30, mScreenYMax/20, mUiTextPaint);
+			}
+			else {
+				canvas.drawText(String.format("%02d.%03d", currentTime/1000 % 60, currentTime % 1000), 30, mScreenYMax/20, mUiTextPaint);
 			}
 		}
 
@@ -221,19 +201,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		 * Draws the game tiles used in the current level.
 		 * @param Canvas canvas
 		 */
-		private void drawGameTiles(Canvas canvas)
-		{
+		private void drawGameTiles(Canvas canvas) {
 			synchronized(mGameTiles) {
 				Iterator<GameTile> it = mGameTiles.iterator();
 				GameTile g;
-				while (it.hasNext()) {
+				while(it.hasNext()) {
 					g = it.next();
-					if (g != null)
-					{
+					if(g != null) {
 						g.setX(g.getX() - mScreenXOffset);
 						g.setY(g.getY() - mScreenYOffset);
-						if (g.isVisible())
-						{
+						if(g.isVisible()) {
 							canvas.drawBitmap(g.getBitmap(), g.getX(), g.getY(), null);
 						}
 					}
@@ -252,8 +229,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 * @param int level - The level to load.
 	 * @param float screenDensity - The screen density.
 	 */
-	public GameView(Context context, Play activity)
-	{
+	public GameView(Context context, Play activity) {
 		super(context);
 
 		mGameContext = context;
@@ -269,12 +245,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 		mUiTextPaint = new Paint();
 		mUiTextPaint.setStyle(Paint.Style.FILL);
-		mUiTextPaint.setColor(Color.RED);
+		mUiTextPaint.setColor(Color.WHITE);
 		mUiTextPaint.setAntiAlias(true);
 		
-		Typeface uiTypeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Molot.otf");
-		if (uiTypeface != null)
-		{
+		Typeface uiTypeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Medium.ttf");
+		if(uiTypeface != null) {
 			mUiTextPaint.setTypeface(uiTypeface);
 		}
 		mUiTextPaint.setTextSize(mGameContext.getApplicationContext().getResources().getDimensionPixelSize(R.dimen.ui_text_size));
@@ -292,17 +267,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 * Gets the game thread.
 	 * @return GameThread
 	 */
-	public GameThread getThread()
-	{
+	public GameThread getThread() {
 		return thread;
 	}
 
 	/**
 	 * Callback invoked when the surface dimensions change.
 	 */
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height)
-	{
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		thread.setSurfaceSize(width, height);
 	}
 
@@ -310,66 +282,53 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 * Callback invoked when the Surface has been created and is ready to be
 	 * used.
 	 */
-	public void surfaceCreated(SurfaceHolder holder)
-	{
+	public void surfaceCreated(SurfaceHolder holder) {
 		// start the thread here so that we don't busy-wait in run()
 		// waiting for the surface to be created
 
-		if (thread.getState() == Thread.State.TERMINATED)
-		{
+		if(thread.getState() == Thread.State.TERMINATED) {
 			thread = new GameThread(holder, getContext(), new Handler());
 			thread.setRunning(true);
 			thread.start();
 			thread.doStart();
 			startLevel();
 		}
-		else
-		{
+		else {
 			thread.setRunning(true);
 			thread.start();
 		}
 	}
-
+	
 	/*
 	 * Callback invoked when the Surface has been destroyed.
 	 */
-	public void surfaceDestroyed(SurfaceHolder holder)
-	{
+	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
 		thread.setRunning(false);
-		while (retry)
-		{
-			try
-			{
+		while(retry) {
+			try {
 				thread.join();
 				retry = false;
-			} catch (InterruptedException e)
-			{
-				Log.e("Tile Game Example", e.getMessage());
+			} 
+			catch (InterruptedException e) {
+				Log.e("HungryCharlie", e.getMessage());
 			}
 		}
-	}
-
-	private GameTile findSafeTile() {
-		GameTile max = null;
-		synchronized(mGameTiles) {
-			Iterator<GameTile> it = mGameTiles.iterator();
-			GameTile g;
-			while (it.hasNext()) {
-				g = it.next();
-				if (!g.isDangerous()) {
-					if (max == null || g.getY() > max.getY()) {
-						max = g;
-					}
-				}
-			}
-		}
-		return max;
 	}
 	
+	/**
+	 * Loads and starts the current level.
+	 */
+	private void startLevel()
+	{
+		for (int i = 0; i < 4; i++) {
+			generateRow();
+		}
+		thread.unpause();
+	}
+
 	public void generateRow() {
 		updatingGameTiles = true;
-
 		synchronized(mGameTiles) {
 			Iterator<GameTile> it = mGameTiles.iterator();
 			GameTile g;
@@ -380,7 +339,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 					it.remove();
 				}
 			}
-			
 			if(tileCount < MAX_TILES) {
 				Random r = new Random();
 				int safe = r.nextInt(4);
@@ -395,9 +353,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				}
 				tileCount++;
 			}
-			
 		}
 		updatingGameTiles = false;
+	}
+	
+	private GameTile findSafeTile() {
+		GameTile max = null;
+		synchronized(mGameTiles) {
+			Iterator<GameTile> it = mGameTiles.iterator();
+			GameTile g;
+			while (it.hasNext()) {
+				g = it.next();
+				if(!g.isDangerous()) {
+					if (max == null || g.getY() > max.getY()) {
+						max = g;
+					}
+				}
+			}
+		}
+		return max;
 	}
 	
 	/**
@@ -409,53 +383,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public boolean onTouchEvent(MotionEvent event)
 	{
 		int eventAction = event.getAction();
-		switch (eventAction)
-		{
-		case MotionEvent.ACTION_DOWN:
-
-			if (mGameState == STATE_RUNNING)
-			{
-				final int x = (int) event.getX();
-				final int y = (int) event.getY();
-				GameTile safe = findSafeTile();
-				if (safe != null) {
-					if (safe.getImpact(x, y)) {
-						generateRow();
-						if(tapCount < MAX_TILES - 1) {
-							tapCount++;
-						}
-						else {	
-							thread.setState(STATE_FINISHED);
-						}
-						
-					} 
-					else {
-						// TODO: show "You lost" message
-					}	
+		switch (eventAction) {
+			case MotionEvent.ACTION_DOWN:
+				if (mGameState == STATE_RUNNING) {
+					final int x = (int) event.getX();
+					final int y = (int) event.getY();
+					GameTile safe = findSafeTile();
+					if (safe != null) {
+						if (safe.getImpact(x, y)) {
+							generateRow();
+							if(tapCount < MAX_TILES - 1) {
+								tapCount++;
+							}
+							else {	
+								thread.setState(STATE_FINISHED);
+							}
+						} 
+						else {
+							// TODO: show "You lost" message
+						}	
+					}
 				}
-			}
-
-			break;
-		case MotionEvent.ACTION_UP:
-		case MotionEvent.ACTION_CANCEL:
+				break;
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_CANCEL:
 		}
 
 		return true;
 	}
-	
-	/**
-	 * Loads and starts the current level.
-	 */
-	private void startLevel()
-	{
-		
-		
-		for (int i = 0; i < 4; i++) {
-			generateRow();
-		}
-		
-
-		thread.unpause();
-	}
-
 }
