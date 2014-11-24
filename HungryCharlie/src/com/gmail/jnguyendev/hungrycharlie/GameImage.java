@@ -10,7 +10,7 @@ import android.graphics.BitmapFactory;
  * Each instance contains a Bitmap image, a width / height
  * and an on-screen position.
  * 
- * @author Dan Ruscoe (ruscoe.org)
+ * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen
  * @version 1.0
  */
 public class GameImage 

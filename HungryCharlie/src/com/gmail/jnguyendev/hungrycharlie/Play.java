@@ -20,7 +20,7 @@ import com.gmail.jnguyendev.hungrycharlie.GameView;
  * The Play activity creates a new GameView instance and starts
  * the game.
  * 
- * @author Dan Ruscoe (ruscoe.org)
+ * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen
  * @version 1.0
  */
 public class Play extends Activity
@@ -93,7 +93,6 @@ public class Play extends Activity
 	protected void onPause()
 	{
 		super.onPause();
-
 		mGameView.getThread().setState(GameView.STATE_PAUSED); // pause game when Activity pauses
 	}
 }

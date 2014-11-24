@@ -11,7 +11,7 @@ import android.graphics.Rect;
  * based on a static count property. This is useful when creating, and later
  * modifying, multiple units.
  * 
- * @author Dan Ruscoe (ruscoe.org)
+ * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen
  * @version 1.0
  */
 public class GameUnit extends GameImage

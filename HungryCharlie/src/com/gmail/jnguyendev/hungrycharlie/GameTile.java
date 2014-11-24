@@ -11,7 +11,7 @@ import android.graphics.Rect;
  * In addition to the GameImage properties, game tiles include a unique
  * key, tile type identifier and visibility setting. 
  * 
- * @author Dan Ruscoe (ruscoe.org)
+ * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen
  * @version 1.0
  */
 public class GameTile extends GameImage
