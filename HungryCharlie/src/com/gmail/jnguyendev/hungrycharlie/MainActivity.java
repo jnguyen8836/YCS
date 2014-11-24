@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Typeface;
@@ -15,8 +16,6 @@ import android.widget.Button;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Games;
-import com.google.android.gms.games.Player;
 import com.google.android.gms.plus.Plus;
 
 public class MainActivity extends Activity implements
@@ -71,8 +70,12 @@ public class MainActivity extends Activity implements
 	}
 	
 	public void openPockyFacts(View view) throws IOException {
-		Intent intent = new Intent(this, About.class);
-		startActivity(intent);
+		showDialog();
+	}
+	
+	private void showDialog() {
+		DialogFragment fragment = PockyFactsDialog.newInstance();
+		fragment.show(getFragmentManager(), "dialog");
 	}
 	
 	public void openSignIn(View view) throws IOException {
