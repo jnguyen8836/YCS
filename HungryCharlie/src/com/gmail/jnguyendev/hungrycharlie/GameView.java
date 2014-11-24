@@ -22,6 +22,9 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+//import com.gmail.jnguyendev.hungrycharlie.PlayerUnit;
+//import com.gmail.jnguyendev.hungrycharlie.data.GameLevelTileData;
+//import com.gmail.jnguyendev.hungrycharlie.data.GameTileData;
 
 /**
  * The game view and main game thread.
@@ -35,7 +38,7 @@ import android.view.SurfaceView;
  * To see how game level data is parsed and turned into a playable, tile level,
  * see the function GameView.parseGameLevelData.
  * 
- * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen
+ * @author Dan Ruscoe (ruscoe.org)
  * @version 1.0
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback
@@ -63,7 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	private boolean mGameRun = true;
 	
 	private Paint mUiTextPaint = null;
-//	private String mLastStatusMessage = "";
+	private String mLastStatusMessage = "";
 	
 	private int tileCount = 0;
 	private int tapCount = 0;
@@ -206,16 +209,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				
 				
 				if(mGameState != GameView.STATE_FINISHED) {
-					currentTime = SystemClock.elapsedRealtime() - startTime;					
+					currentTime = SystemClock.elapsedRealtime() - startTime;
+					
 	//				canvas.drawText("Howdy!"/*mLastStatusMessage*/, 30, 50, mUiTextPaint);
 				}
-				if(currentTime/60000 > 0) {
-					canvas.drawText(String.format("%02d:%02d.%03d", currentTime/60000, currentTime/1000 % 60, currentTime % 1000), 30, 50, mUiTextPaint);
-				}
-				else {
-					canvas.drawText(String.format("%02d.%03d", currentTime/1000 % 60, currentTime % 1000), 30, 50, mUiTextPaint);
-				}
-				
+				canvas.drawText(String.format("%02d:%02d.%03d", currentTime/60000, currentTime/1000 % 60, currentTime % 1000), 30, 50, mUiTextPaint);
 			}
 		}
 
@@ -271,10 +269,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
 		mUiTextPaint = new Paint();
 		mUiTextPaint.setStyle(Paint.Style.FILL);
-		mUiTextPaint.setColor(Color.WHITE);
+		mUiTextPaint.setColor(Color.RED);
 		mUiTextPaint.setAntiAlias(true);
 		
-		Typeface uiTypeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Medium.ttf");
+		Typeface uiTypeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Molot.otf");
 		if (uiTypeface != null)
 		{
 			mUiTextPaint.setTypeface(uiTypeface);
@@ -450,9 +448,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 */
 	private void startLevel()
 	{
+		
+		
 		for (int i = 0; i < 4; i++) {
 			generateRow();
 		}
+		
+
 		thread.unpause();
 	}
 

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_bg"
+    tools:context=".MainActivity" >
+
+<!--     <Button -->
+<!--         android:id="@+id/button_pocky_stats" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_marginBottom="61dp" -->
+<!--         android:layout_marginLeft="26dp" -->
+<!--         android:onClick="openPockyStats" -->
+<!--         android:text="Pocky Stats" /> -->
+
+<!--     <Button -->
+<!--         android:id="@+id/button_pocky_facts" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_marginBottom="14dp" -->
+<!--         android:onClick="openPockyFacts" -->
+<!--         android:text="Pocky Facts" /> -->
+
+<!--     <Button -->
+<!--         android:id="@+id/button_hungry_charlie" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_marginBottom="16dp" -->
+<!--         android:onClick="openHungryCharlie" -->
+<!--         android:text="Hungry Charlie" /> -->
+
+    <Button
+        android:id="@+id/button_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openSignIn"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"
+        android:text="Sign In"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/button_pocky_facts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_pocky_stats"
+        android:layout_alignLeft="@+id/button_hungry_charlie"
+        android:layout_alignRight="@+id/button_hungry_charlie"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openPockyFacts"
+        android:text="Pocky Facts"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/button_hungry_charlie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_pocky_facts"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="19dp"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openHungryCharlie"
+        android:text="Hungry Charlie"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/button_pocky_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button_pocky_facts"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/button_pocky_facts"
+        android:layout_marginBottom="53dp"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openPockyStats"
+        android:text="Pocky Stats"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+</RelativeLayout>

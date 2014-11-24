@@ -20,7 +20,7 @@ import com.gmail.jnguyendev.hungrycharlie.GameView;
  * The Play activity creates a new GameView instance and starts
  * the game.
  * 
- * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen 
+ * @author Dan Ruscoe (ruscoe.org)
  * @version 1.0
  */
 public class Play extends Activity

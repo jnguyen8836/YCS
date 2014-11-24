@@ -10,7 +10,7 @@ import android.content.Context;
  * state identifier, allowing buttons to appear in different states
  * with associated drawables.
  * 
- * @author Anthony Weems, Johnny Nguyen, Jonathan Lee, Kevin Fu, Connie Shen
+ * @author Dan Ruscoe (ruscoe.org)
  * @version 1.0
  */
 public class GameUi extends GameUnit

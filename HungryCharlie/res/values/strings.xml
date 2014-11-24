@@ -2,7 +2,9 @@
 <resources>
     <string name="app_name">Hungry Charlie</string>
     
-    <string name="about_text">Tile game using Android canvas</string>
+    <string name="about_text">Tile game example using Android canvas.</string>
+    <string name="about_open_source">The code used to create this example is open-source:</string>
+    <string name="about_link">http://ruscoe.org/code/</string>
     
     <string name="about_label">About</string>
     <string name="exit_label">Exit</string>

@@ -7,7 +7,7 @@ This is a game similar to Piano Tiles/Don't Touch the White Tile. The source cod
 ## Requirements
 
 * [Android SDK](http://developer.android.com/sdk/index.html)
-* Android 4.0 platform
+* Android 2.2 platform
 
 ## Usage
 
