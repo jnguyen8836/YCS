@@ -69,7 +69,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	private int tapCount = 0;
 	private int MAX_TILES = 5;
 	
-	private long startTime = SystemClock.elapsedRealtime();
+	private long startTime = 0;
 	private long currentTime;
 
 	/**
@@ -185,8 +185,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 		
 		private void drawGameTimer(Canvas canvas) {
-			if(mGameState != GameView.STATE_FINISHED) {
-				currentTime = SystemClock.elapsedRealtime() - startTime;					
+			if (mGameState != GameView.STATE_FINISHED) {
+				if (startTime != 0) {
+					currentTime = SystemClock.elapsedRealtime() - startTime;
+				} else {
+					currentTime = 0;
+				}
 			}
 			
 			if(currentTime/60000 > 0) {
@@ -386,6 +390,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		switch (eventAction) {
 			case MotionEvent.ACTION_DOWN:
 				if (mGameState == STATE_RUNNING) {
+					if (tapCount == 0) {
+						startTime = SystemClock.elapsedRealtime();
+					}
+
 					final int x = (int) event.getX();
 					final int y = (int) event.getY();
 					GameTile safe = findSafeTile();
@@ -399,7 +407,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 								thread.setState(STATE_FINISHED);
 								mGameActivity.recreate();
 							}
-						} 
+						}
 						else {
 							// TODO: show "You lost" message
 						}	
