@@ -20,19 +20,22 @@ public class PockyFactsDialog extends DialogFragment {
     	       .setTitle("Random Pocky Fact!")
     		   .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
-    	                // Restart Hungry Charlie!
-    	    			   }
-    	    		   })
+    	               // Restart Hungry Charlie!
+    				   Intent i = new Intent(getActivity(), HungryCharlie.class);
+    				   startActivity(i);
+    			   }
+    		   })
     		   .setNegativeButton("Return to Home", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
     				   // Return to Home Screen
+//    				   Intent i = new Intent(getActivity(), MainActivity.class);
+//    				   startActivity(i);
     			   }
     		   });
 
     	AlertDialog dialog = builder.create();
     	
     	return dialog;
-    	
     }
     
     public static PockyFactsDialog newInstance() {
