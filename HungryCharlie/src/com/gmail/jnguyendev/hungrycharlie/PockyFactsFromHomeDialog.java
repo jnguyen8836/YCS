@@ -8,7 +8,7 @@ import android.content.*;
 import android.os.*;
 
 @SuppressLint("NewApi")
-public class PockyFactsDialog extends DialogFragment {
+public class PockyFactsFromHomeDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
     	
@@ -18,18 +18,17 @@ public class PockyFactsDialog extends DialogFragment {
         
     	builder.setMessage(pockyFact.getFact())
     	       .setTitle("Random Pocky Fact!")
-    		   .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+    		   .setPositiveButton("Again", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
-    	               // Restart Hungry Charlie!
-    				   Intent intent = new Intent(getActivity(), HungryCharlie.class);
-    				   getActivity().finish();
-    				   startActivity(intent);
+    	               // Get another Pocky Fact
+    				   DialogFragment fragment = PockyFactsFromHomeDialog.newInstance();
+    				   fragment.show(getFragmentManager(), "dialog");
     			   }
     		   })
     		   .setNegativeButton("Return Home", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
-    				   // Return to Home Screen
-    				   getActivity().finish();
+    				   // Close popup
+    				   getActivity().closeOptionsMenu();
     			   }
     		   });
 
@@ -38,13 +37,13 @@ public class PockyFactsDialog extends DialogFragment {
     	return dialog;
     }
     
-    public static PockyFactsDialog newInstance() {
-    	PockyFactsDialog f = new PockyFactsDialog();
+    public static PockyFactsFromHomeDialog newInstance() {
+    	PockyFactsFromHomeDialog f = new PockyFactsFromHomeDialog();
         return f;
     }
     
     public void showDialog() {
-        DialogFragment newFragment = PockyFactsDialog.newInstance();
+        DialogFragment newFragment = PockyFactsFromHomeDialog.newInstance();
         newFragment.show(getFragmentManager(), "dialog");
     }
     

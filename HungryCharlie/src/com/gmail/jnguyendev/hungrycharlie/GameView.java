@@ -409,6 +409,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 //								mGameActivity.recreate();
 //								mGameActivity.finish();
 								DialogFragment fragment = PockyFactsDialog.newInstance();
+								fragment.setCancelable(false);
 								fragment.show(mGameActivity.getFragmentManager(), "dialog");
 							}
 						}
