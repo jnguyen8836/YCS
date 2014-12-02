@@ -11,4 +11,18 @@
     
     <string name="about_shortcut">a</string>
     <string name="exit_shortcut">x</string>
+    <string-array name="length_array">
+		<item>Inches</item>
+		<item>Centimeters</item>
+    </string-array>    <string-array name="weight_array">
+        <item>Grams</item>
+        <item>Ounces</item>        
+    </string-array>
+    <string-array name="price_array">
+        <item>Yen</item>
+        <item>Dollars</item>
+    </string-array>
+    <string name="length_prompt">Choose an input unit of length:</string>
+    <string name="weight_prompt">Choose an input unit of weight:</string>
+    <string name="price_prompt">Choose an input currency:</string>
 </resources>

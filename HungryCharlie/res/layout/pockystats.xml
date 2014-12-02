@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/stats_bg"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="40dp"
+    android:soundEffectsEnabled="false" >
+
+    <TextView
+        android:id="@+id/stats_output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/price_spinner"
+        android:layout_centerHorizontal="true"
+        android:text="0 Sticks\n0 Boxes"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="right"
+        android:textColor="#000000" />
+
+    <Spinner
+        android:id="@+id/length_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/weight_spinner"
+        android:layout_below="@+id/weight_spinner"
+        android:entries="@array/length_array"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:prompt="@string/length_prompt" />
+
+    <Spinner
+        android:id="@+id/price_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stats_output"
+        android:layout_below="@+id/length_spinner"
+        android:entries="@array/price_array"
+        android:paddingLeft="50dp"
+        android:paddingRight="60dp"
+        android:prompt="@string/price_prompt" />
+
+    <Button
+        android:id="@+id/price_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/price_spinner"
+        android:layout_below="@+id/length_button"
+        android:layout_toLeftOf="@+id/price_spinner"
+        android:background="@drawable/custom_button_selector"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="Convert Price"
+        android:textColor="#ffffff"
+        android:width="113dp" />
+
+    <Button
+        android:id="@+id/length_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/price_spinner"
+        android:layout_alignTop="@+id/length_spinner"
+        android:layout_toLeftOf="@+id/length_spinner"
+        android:background="@drawable/custom_button_selector"
+        android:text="Convert Length"
+        android:textColor="#ffffff" />
+
+
+
+    <Button
+        android:id="@+id/weight_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/length_spinner"
+        android:layout_alignTop="@+id/weight_spinner"
+        android:layout_toLeftOf="@+id/weight_spinner"
+        android:background="@drawable/custom_button_selector"
+        android:text="Convert Weight"
+        android:textColor="#ffffff" />
+
+    <Spinner
+        android:id="@+id/weight_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/price_spinner"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="58dp"
+        android:entries="@array/weight_array"
+        android:paddingLeft="40dp"
+        android:paddingRight="60dp"
+        android:prompt="@string/weight_prompt" />
+
+    <EditText
+        android:id="@+id/stats_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/weight_button"
+        android:layout_alignLeft="@+id/weight_button"
+        android:layout_alignRight="@+id/weight_spinner"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="0.0" />
+
+</RelativeLayout>

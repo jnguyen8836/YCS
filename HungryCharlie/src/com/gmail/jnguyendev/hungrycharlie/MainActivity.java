@@ -77,7 +77,7 @@ public class MainActivity extends Activity implements
 	}
 	
 	public void openPockyStats(View view) throws IOException {
-		Intent intent = new Intent(this, About.class);
+		Intent intent = new Intent(this, PockyStats.class);
 		startActivity(intent);
 	}
 	
