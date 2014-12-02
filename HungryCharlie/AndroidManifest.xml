@@ -16,7 +16,7 @@
         </activity>
         <activity android:name="com.gmail.jnguyendev.hungrycharlie.About"
         	android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
-        <activity android:name="com.gmail.jnguyendev.hungrycharlie.Play"
+        <activity android:name="com.gmail.jnguyendev.hungrycharlie.HungryCharlie"
         	android:screenOrientation="portrait" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <meta-data android:name="com.google.android.gms.version" 
             android:value="@integer/google_play_services_version" />
