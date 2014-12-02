@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -67,7 +68,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	private int tileCount = 0;
 	private int tapCount = 0;
-	private int MAX_TILES = 5;
+	private int MAX_TILES = 10;
 	
 	private long startTime = 0;
 	private long currentTime;
@@ -405,7 +406,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 							}
 							else {	
 								thread.setState(STATE_FINISHED);
-								mGameActivity.recreate();
+//								mGameActivity.recreate();
+//								mGameActivity.finish();
+								DialogFragment fragment = PockyFactsDialog.newInstance();
+								fragment.show(mGameActivity.getFragmentManager(), "dialog");
 							}
 						}
 						else {
