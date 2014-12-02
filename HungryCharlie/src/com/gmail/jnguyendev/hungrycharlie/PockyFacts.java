@@ -21,6 +21,7 @@ public class PockyFacts extends Activity {
     LinearLayout mainLayout;
     Button but;
     boolean click = true;
+    Random rand = new Random();
     ArrayList<String> PockyList = new ArrayList<String>();
 
 
@@ -89,9 +90,7 @@ public class PockyFacts extends Activity {
     }
     
     public String getFact(){
-    	Random rand = new Random();
-
-        int randomNum = rand.nextInt((20 - 0) + 1) + 0;
+        int randomNum = rand.nextInt(getCount());
         String pockyFact = PockyList.get(randomNum);
         
         return pockyFact;
