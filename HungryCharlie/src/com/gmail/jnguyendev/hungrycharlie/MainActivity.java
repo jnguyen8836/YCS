@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity implements
 	private Button btnPockyStats;
 	private Button btnPockyFacts;
 	private Button btnSignIn;
+	private TextView txtUsername;
 
 	private GoogleApiClient mGoogleApiClient;
     final String TAG = "HungryCharlie";
@@ -36,18 +38,26 @@ public class MainActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_main);
+		Typeface typeGoodDog = Typeface.createFromAsset(getAssets(), "GoodDog.otf");
+
 		btnHungryCharlie = (Button)findViewById(R.id.button_hungry_charlie);
-		btnHungryCharlie.setTypeface(Typeface.createFromAsset(getAssets(), "GoodDog.otf"));
+		btnHungryCharlie.setTypeface(typeGoodDog);
 		btnHungryCharlie.setTextSize(25);
+
 		btnPockyStats = (Button)findViewById(R.id.button_pocky_stats);
-		btnPockyStats.setTypeface(Typeface.createFromAsset(getAssets(), "GoodDog.otf"));
+		btnPockyStats.setTypeface(typeGoodDog);
 		btnPockyStats.setTextSize(25);
+
 		btnPockyFacts = (Button)findViewById(R.id.button_pocky_facts);
-		btnPockyFacts.setTypeface(Typeface.createFromAsset(getAssets(), "GoodDog.otf"));
+		btnPockyFacts.setTypeface(typeGoodDog);
 		btnPockyFacts.setTextSize(25);
+
 		btnSignIn = (Button)findViewById(R.id.button_sign_in);
-		btnSignIn.setTypeface(Typeface.createFromAsset(getAssets(), "GoodDog.otf"));
+		btnSignIn.setTypeface(typeGoodDog);
 		btnSignIn.setTextSize(18);
+
+		txtUsername = (TextView)findViewById(R.id.textview_username);
+		txtUsername.setTypeface(typeGoodDog);
 
         // Create the Google API Client with access to Plus and Games
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -82,6 +92,7 @@ public class MainActivity extends Activity implements
 		if (isSignedIn()) {
 			mGoogleApiClient.disconnect();
 			btnSignIn.setText("Sign In");
+			txtUsername.setVisibility(View.INVISIBLE);
 		} else {
 			mGoogleApiClient.connect();
 		}
@@ -132,6 +143,9 @@ public class MainActivity extends Activity implements
         Log.d(TAG, "onConnected(): connected to Google APIs");
         String displayName = Plus.AccountApi.getAccountName(mGoogleApiClient);
         Log.w(TAG, "Current user is: " + displayName);
+
+        txtUsername.setText(displayName);
+        txtUsername.setVisibility(View.VISIBLE);
         btnSignIn.setText("Sign Out");
 	}
 

@@ -89,4 +89,17 @@
         android:textColor="#ffffff"
         android:textSize="15sp" />
 
+    <TextView
+        android:id="@+id/textview_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_sign_in"
+        android:layout_alignLeft="@+id/button_hungry_charlie"
+        android:layout_alignTop="@+id/button_sign_in"
+        android:gravity="center"
+        android:text="username"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/primary_text_light"
+        android:visibility="invisible" />
+
 </RelativeLayout>
