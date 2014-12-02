@@ -24,25 +24,17 @@ public class PockyFactsDialog extends DialogFragment {
     				   Intent intent = new Intent(getActivity(), HungryCharlie.class);
     				   getActivity().finish();
     				   startActivity(intent);
-//    				   getActivity().recreate();
     			   }
     		   })
     		   .setNegativeButton("Return to Home", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
     				   // Return to Home Screen
-//    				   Intent i = new Intent(getActivity(), MainActivity.class);
-//    				   startActivity(i);
     				   getActivity().finish();
     			   }
-    		   })
-    		   .setNeutralButton("Blarh", new DialogInterface.OnClickListener() {
-    			   public void onClick(DialogInterface dialog, int id) {
-    				   getActivity().finish();
-    			   }
-    		   })
-    		   ;
+    		   });
 
     	AlertDialog dialog = builder.create();
+    	dialog.setCanceledOnTouchOutside(true);
     	
     	return dialog;
     }
