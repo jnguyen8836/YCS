@@ -6,6 +6,9 @@ import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 
 @SuppressLint("NewApi")
 public class PockyFactsDialog extends DialogFragment {
@@ -15,9 +18,10 @@ public class PockyFactsDialog extends DialogFragment {
     	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     	
     	PockyFacts pockyFact = PockyFacts.newInstance();
-        
-    	builder.setMessage(pockyFact.getFact())
-    	       .setTitle("Random Pocky Fact!")
+    	LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        builder.setCustomTitle(inflater.inflate(R.layout.pocky_facts, null))
+	           .setMessage(pockyFact.getFact())
     		   .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
     	               // Restart Hungry Charlie!
@@ -36,6 +40,7 @@ public class PockyFactsDialog extends DialogFragment {
     	AlertDialog dialog = builder.create();
     	
     	return dialog;
+ 
     }
     
     public static PockyFactsDialog newInstance() {
