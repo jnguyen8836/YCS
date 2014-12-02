@@ -51,7 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	private int mScreenYOffset = 0;
 
 	private Context mGameContext;
-	private Play mGameActivity;
+	private HungryCharlie mGameActivity;
 	private SurfaceHolder mGameSurfaceHolder = null;
 
 	private boolean updatingGameTiles = false;
@@ -233,7 +233,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	 * @param int level - The level to load.
 	 * @param float screenDensity - The screen density.
 	 */
-	public GameView(Context context, Play activity) {
+	public GameView(Context context, HungryCharlie activity) {
 		super(context);
 
 		mGameContext = context;

@@ -60,7 +60,7 @@ public class MainActivity extends Activity implements
 	}
 	
 	public void openHungryCharlie(View view) throws IOException {
-		Intent intent = new Intent(this, Play.class);
+		Intent intent = new Intent(this, HungryCharlie.class);
 		startActivity(intent);
 	}
 	
