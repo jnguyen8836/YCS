@@ -26,7 +26,8 @@ public class PockyFactsTest extends AndroidTestCase {
 			prev = cur;
 		}
 
-		assert((facts.getCount() * repeatCount / REPEAT_ITERATIONS) < 2);
+		double ratio = (1.0 * facts.getCount() * repeatCount) / REPEAT_ITERATIONS;
+		assertTrue(ratio < 1.0);
 	}
 	
 }

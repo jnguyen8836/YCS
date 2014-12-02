@@ -22,6 +22,7 @@ public class PockyFacts extends Activity {
     Button but;
     boolean click = true;
     Random rand = new Random();
+    int prevNum = 0;
     ArrayList<String> PockyList = new ArrayList<String>();
 
 
@@ -60,7 +61,6 @@ public class PockyFacts extends Activity {
 //    }
     
     public PockyFacts() {
-    	
     	PockyList.add("Fact 1");
     	PockyList.add("Fact 2");
     	PockyList.add("Fact 3");
@@ -89,10 +89,13 @@ public class PockyFacts extends Activity {
         return f;
     }
     
-    public String getFact(){
-        int randomNum = rand.nextInt(getCount());
-        String pockyFact = PockyList.get(randomNum);
-        
+    public String getFact() {
+        int num = rand.nextInt(getCount());
+        if (num == prevNum) num = rand.nextInt(getCount());
+
+        String pockyFact = PockyList.get(num);
+        prevNum = num;
+
         return pockyFact;
     }
     
