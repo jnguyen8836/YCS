@@ -97,4 +97,8 @@ public class PockyFacts extends Activity {
         return pockyFact;
     }
     
+    public int getCount() {
+    	return PockyList.size();
+    }
+    
 }
