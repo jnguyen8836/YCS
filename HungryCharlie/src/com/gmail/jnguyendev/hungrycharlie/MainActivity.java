@@ -11,14 +11,14 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.Player;
 import com.google.android.gms.plus.Plus;
 
 public class MainActivity extends Activity implements
@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN)
                 // unlock the following method for $25
-                //.addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
 	}
 	
@@ -92,7 +92,11 @@ public class MainActivity extends Activity implements
 	
 	public void openSignIn(View view) throws IOException {
 		if (isSignedIn()) {
+			Games.signOut(mGoogleApiClient);
+			Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+
 			mGoogleApiClient.disconnect();
+
 			btnSignIn.setText("Sign In");
 			txtUsername.setVisibility(View.INVISIBLE);
 		} else {
@@ -143,9 +147,13 @@ public class MainActivity extends Activity implements
 	@Override
 	public void onConnected(Bundle connectionHint) {
         Log.d(TAG, "onConnected(): connected to Google APIs");
-        String displayName = Plus.AccountApi.getAccountName(mGoogleApiClient);
-        Log.w(TAG, "Current user is: " + displayName);
-
+        String displayName = "unknown player";
+        Player player = Games.Players.getCurrentPlayer(mGoogleApiClient);
+        if (player != null) {
+        	displayName = player.getDisplayName();
+            Log.w(TAG, "Current user is: " + displayName);	
+        }
+        
         txtUsername.setText(displayName);
         txtUsername.setVisibility(View.VISIBLE);
         btnSignIn.setText("Sign Out");
