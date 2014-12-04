@@ -26,6 +26,8 @@ public class PockyFactsAPI {
 
             serverAddr = InetAddress.getByName(SERVER_IP);
             Socket s = new Socket(serverAddr, SERVERPORT);
+            s.setSoTimeout(1000);
+
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
             output.write(HTTP_REQUEST);
             output.flush();
