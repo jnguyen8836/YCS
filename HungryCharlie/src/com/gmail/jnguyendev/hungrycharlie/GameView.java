@@ -179,21 +179,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			if(canvas != null) {
 				if(!updatingGameTiles) {
 					drawGameTiles(canvas);
+					drawGameTimer(canvas);
 				}
-
-				drawGameTimer(canvas);
 			}
 		}
 		
 		private void drawGameTimer(Canvas canvas) {
-			if (mGameState != GameView.STATE_FINISHED) {
-				if (startTime != 0) {
+			if(mGameState == GameView.STATE_RUNNING) {
+				if(startTime != 0) {
 					currentTime = SystemClock.elapsedRealtime() - startTime;
-				} else {
+				} 
+				else {
 					currentTime = 0;
 				}
 			}
-			
 			if(currentTime/60000 > 0) {
 				canvas.drawText(String.format("%02d:%02d.%03d", currentTime/60000, currentTime/1000 % 60, currentTime % 1000), 30, mScreenYMax/20, mUiTextPaint);
 			}
@@ -391,15 +390,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		switch (eventAction) {
 			case MotionEvent.ACTION_DOWN:
 				if (mGameState == STATE_RUNNING) {
-					if (tapCount == 0) {
-						startTime = SystemClock.elapsedRealtime();
-					}
+					
 
 					final int x = (int) event.getX();
 					final int y = (int) event.getY();
 					GameTile safe = findSafeTile();
-					if (safe != null) {
+					if(safe != null) {
 						if (safe.getImpact(x, y)) {
+							if(tapCount == 0) {
+								startTime = SystemClock.elapsedRealtime();
+							}
 							generateRow();
 							if(tapCount < MAX_TILES - 1) {
 								tapCount++;
@@ -413,8 +413,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 								fragment.show(mGameActivity.getFragmentManager(), "dialog");
 							}
 						}
-						else {
+						else if(y > (mScreenYMax - mScreenYMax/4)){
 							// TODO: show "You lost" message
+							thread.setState(STATE_FINISHED);
+							DialogFragment fragment = PockyFactsDialog.newInstance();
+							fragment.setCancelable(false);
+							fragment.show(mGameActivity.getFragmentManager(), "dialog");
 						}	
 					}
 				}
