@@ -1,0 +1,149 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/stats_bg"
+    android:gravity="center"
+    android:layout_gravity="center">
+    
+    <GridLayout
+        android:id="@+id/GridLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="4"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="60dp"
+        android:rowCount="6"
+        android:soundEffectsEnabled="false"
+        tools:context=".GridLayoutActivity" >
+    
+	    <Button
+	        android:id="@+id/price_button"
+	        style="?android:attr/buttonStyleSmall"
+	        android:background="@drawable/custom_button_selector"
+	        android:paddingLeft="2dp"
+	        android:paddingRight="2dp"
+	        android:text="Convert Price"
+	        android:textColor="#ffffff"
+	        android:width="113dp" 
+	        android:layout_column="1"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:layout_row="1"/>
+	
+	    <Button
+	        android:id="@+id/length_button"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/custom_button_selector"
+	        android:text="Convert Length"
+	        android:textColor="#ffffff" 
+	        android:layout_column="1"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:layout_row="2"/>
+	
+	    <Button
+	        android:id="@+id/weight_button"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/custom_button_selector"
+	        android:text="Convert Weight"
+	        android:textColor="#ffffff" 
+	        android:layout_column="1"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:layout_row="3"/>
+	
+	    <Spinner
+	        android:id="@+id/length_spinner"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_gravity="fill_horizontal"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:entries="@array/length_array"
+	        android:paddingLeft="40dp"
+	        android:paddingRight="40dp"
+	        android:prompt="@string/length_prompt" 
+	        android:layout_column="2"
+	        android:layout_row="2"
+	        android:width="200dp" />
+	
+	    <Spinner
+	        android:id="@+id/price_spinner"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_column="2"
+	        android:layout_gravity="fill_horizontal"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:layout_row="1"
+	        android:entries="@array/price_array"
+	        android:paddingLeft="50dp"
+	        android:paddingRight="60dp"
+	        android:prompt="@string/price_prompt" 
+	        android:width="200dp" />
+	
+	    <EditText
+	        android:id="@+id/stats_input"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:ems="10"
+	        android:layout_gravity="fill_horizontal"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:text="0" 
+	        android:layout_column="1"
+	        android:layout_row="0"
+	        android:layout_columnSpan="2" 
+	        android:inputType="numberDecimal" >
+	        <requestFocus />
+	    </EditText>
+	
+	    <Spinner
+	        android:id="@+id/weight_spinner"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_column="2"
+	        android:layout_gravity="fill_horizontal"
+	        android:layout_row="3"
+	        android:entries="@array/weight_array"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:paddingLeft="40dp"
+	        android:paddingRight="60dp"
+	        android:prompt="@string/weight_prompt" 
+	        android:width="200dp" />
+	
+	    <TextView
+	        android:id="@+id/stats_output"
+	        android:layout_width="278dp"
+	        android:layout_height="wrap_content"
+	        android:layout_column="1"
+	        android:layout_columnSpan="2"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:layout_row="4"
+	        android:text="0 Sticks\n0 Boxes"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textColor="#000000" />
+	    
+	    <Button
+	        android:id="@+id/return_home"
+	        style="?android:attr/buttonStyleSmall"
+	        android:background="@drawable/custom_button_selector"
+	        android:paddingLeft="2dp"
+	        android:paddingRight="2dp"
+	        android:text="Return Home"
+	        android:textColor="#ffffff"
+	        android:width="113dp" 
+	        android:layout_column="1"
+	        android:layout_gravity="center_vertical|center_horizontal"
+	        android:layout_row="5"
+	        android:layout_columnSpan="2"/>
+	    
+	</GridLayout>
+</LinearLayout>

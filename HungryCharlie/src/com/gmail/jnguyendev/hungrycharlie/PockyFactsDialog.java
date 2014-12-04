@@ -1,14 +1,13 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
-import java.util.Random;
-
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
-import android.os.*;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
+import com.gmail.jnguyendev.hungrycharlie.R;
+import android.os.Bundle;
 
 @SuppressLint("NewApi")
 public class PockyFactsDialog extends DialogFragment {

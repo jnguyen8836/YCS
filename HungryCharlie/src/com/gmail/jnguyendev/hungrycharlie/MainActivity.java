@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements
 
 		btnHungryCharlie = (Button)findViewById(R.id.button_hungry_charlie);
 		btnHungryCharlie.setTypeface(typeGoodDog);
-		btnHungryCharlie.setTextSize(25);
+		btnHungryCharlie.setTextSize(26);
 
 		btnPockyStats = (Button)findViewById(R.id.button_pocky_stats);
 		btnPockyStats.setTypeface(typeGoodDog);
