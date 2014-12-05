@@ -58,15 +58,20 @@ public class PockyFacts extends Activity {
     	}
     	return pockyFacts;
     }
-    
+
     public String getFact() {
-        int num = rand.nextInt(getCount());
-        if (num == prevNum) num = rand.nextInt(getCount());
+    	String fact = PockyFactsAPI.getFact();
+    	if (fact != null) {
+    		return fact;
+    	} else {
+    		int num = rand.nextInt(getCount());
+    		if (num == prevNum) num = rand.nextInt(getCount());
 
-        String pockyFact = PockyList.get(num);
-        prevNum = num;
+    		String pockyFact = PockyList.get(num);
+    		prevNum = num;
 
-        return pockyFact;
+    		return pockyFact;
+    	}
     }
     
     public int getCount() {
