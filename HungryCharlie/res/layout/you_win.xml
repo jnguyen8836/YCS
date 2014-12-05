@@ -10,6 +10,6 @@
         android:layout_height="214dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/pocky_facts" />
+        android:src="@drawable/you_win" />
 
 </RelativeLayout>

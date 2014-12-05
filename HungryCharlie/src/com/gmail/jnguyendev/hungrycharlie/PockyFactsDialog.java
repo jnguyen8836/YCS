@@ -11,12 +11,18 @@ import android.os.Bundle;
 
 @SuppressLint("NewApi")
 public class PockyFactsDialog extends DialogFragment {
+	
+	private static PockyFactsDialog pockyFactsDialog;
+	
+	private PockyFactsDialog() {
+	}
+	
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
     	
     	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     	
-    	PockyFacts pockyFact = PockyFacts.newInstance();
+    	PockyFacts pockyFact = PockyFacts.getInstance();
     	LayoutInflater inflater = getActivity().getLayoutInflater();
 
         builder.setCustomTitle(inflater.inflate(R.layout.pocky_facts, null))
@@ -42,13 +48,16 @@ public class PockyFactsDialog extends DialogFragment {
  
     }
     
-    public static PockyFactsDialog newInstance() {
-    	PockyFactsDialog f = new PockyFactsDialog();
-        return f;
+    public static PockyFactsDialog getInstance() {
+    	if (pockyFactsDialog == null) {
+        	pockyFactsDialog = new PockyFactsDialog();
+    	    
+        }    
+        return pockyFactsDialog;
     }
     
     public void showDialog() {
-        DialogFragment newFragment = PockyFactsDialog.newInstance();
+        DialogFragment newFragment = PockyFactsDialog.getInstance();
         newFragment.show(getFragmentManager(), "dialog");
     }
     

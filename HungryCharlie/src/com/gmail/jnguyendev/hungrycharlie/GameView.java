@@ -408,7 +408,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 								thread.setState(STATE_FINISHED);
 //								mGameActivity.recreate();
 //								mGameActivity.finish();
-								DialogFragment fragment = PockyFactsDialog.newInstance();
+								DialogFragment fragment = YouWinDialog.getInstance();
 								fragment.setCancelable(false);
 								fragment.show(mGameActivity.getFragmentManager(), "dialog");
 							}
@@ -416,7 +416,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						else if(y > (mScreenYMax - mScreenYMax/4)){
 							// TODO: show "You lost" message
 							thread.setState(STATE_FINISHED);
-							DialogFragment fragment = PockyFactsDialog.newInstance();
+							DialogFragment fragment = YouLoseDialog.getInstance();
 							fragment.setCancelable(false);
 							fragment.show(mGameActivity.getFragmentManager(), "dialog");
 						}	

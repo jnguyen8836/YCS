@@ -25,7 +25,9 @@ public class PockyFacts extends Activity {
     int prevNum = 0;
     ArrayList<String> PockyList = new ArrayList<String>();
     
-    public PockyFacts() {
+    private static PockyFacts pockyFacts;
+    
+    private PockyFacts() {
     	PockyList.add("The correct pronunciation of Pocky is actualy poh-ki!");
     	PockyList.add("Pocky was created in 1963 by the Glico Corporation.");
     	PockyList.add("Pocky was originally called Chocoteck!");
@@ -49,9 +51,12 @@ public class PockyFacts extends Activity {
     	
     }
     
-    public static PockyFacts newInstance() {
-    	PockyFacts f = new PockyFacts();
-        return f;
+    public static PockyFacts getInstance() {
+    	if (pockyFacts == null) {
+    		pockyFacts = new PockyFacts();
+    	    
+    	}
+    	return pockyFacts;
     }
     
     public String getFact() {

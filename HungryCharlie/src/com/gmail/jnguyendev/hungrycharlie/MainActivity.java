@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements
 	}
 	
 	private void showDialog() {
-		DialogFragment fragment = PockyFactsFromHomeDialog.newInstance();
+		DialogFragment fragment = PockyFactsFromHomeDialog.getInstance();
 		fragment.show(getFragmentManager(), "dialog");
 	}
 	
