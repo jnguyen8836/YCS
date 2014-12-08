@@ -1,33 +1,35 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
-import java.util.Random;
-
 import android.annotation.SuppressLint;
-import android.app.*;
-import android.content.*;
-import android.os.*;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
+import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
 @SuppressLint("NewApi")
 public class PockyFactsFromHomeDialog extends DialogFragment {
-		
+
+	private static volatile PockyFactsFromHomeDialog pockyFactsDialog;
+
+	private PockyFactsFromHomeDialog() { }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
     	
     	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    	
-    	PockyFacts pockyFact = PockyFacts.getInstance();
     	LayoutInflater inflater = getActivity().getLayoutInflater();
 
         builder.setCustomTitle(inflater.inflate(R.layout.pocky_facts, null))
-	           .setMessage(pockyFact.getFact())
-    		   .setPositiveButton("Another Fact", new DialogInterface.OnClickListener() {
-    			   public void onClick(DialogInterface dialog, int id) {
-    	               // Get another Pocky Fact
-    				   DialogFragment fragment = PockyFactsFromHomeDialog.getInstance();
-    				   fragment.show(getFragmentManager(), "dialog");
-    			   }
+	           .setMessage(PockyFacts.getInstance().getFact())
+	           .setPositiveButton("Another Fact", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       // empty stub method
+                   }
     		   })
     		   .setNegativeButton("Return Home", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
@@ -37,16 +39,38 @@ public class PockyFactsFromHomeDialog extends DialogFragment {
     		   });
 
     	AlertDialog dialog = builder.create();
-    	
+        dialog.setOnShowListener(new OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				Button fact = ((AlertDialog)dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+				fact.setOnClickListener(new PockyFactsListener(dialog));
+			}
+    	});
+
     	return dialog;
+    }
+
+    class PockyFactsListener implements View.OnClickListener {
+        private final DialogInterface dialog;
+        public PockyFactsListener(DialogInterface dialog) {
+            this.dialog = dialog;
+        }
+        @Override
+        public void onClick(View v) {
+        	((AlertDialog)dialog).setMessage(PockyFacts.getInstance().getFact());
+        }
     }
     
     public static PockyFactsFromHomeDialog getInstance() {
-//    	PockyFactsFromHomeDialog f = new PockyFactsFromHomeDialog();
-//        return f;
-    	PockyFactsFromHomeDialog pockyFactsHomeDialog = new PockyFactsFromHomeDialog();
-    	
-        return pockyFactsHomeDialog;
+    	if (pockyFactsDialog == null) {
+			synchronized (PockyFactsDialog.class) {
+				if (pockyFactsDialog == null) {
+					pockyFactsDialog = new PockyFactsFromHomeDialog();
+				}
+			}
+		}
+
+        return pockyFactsDialog;
     }
     
     public void showDialog() {

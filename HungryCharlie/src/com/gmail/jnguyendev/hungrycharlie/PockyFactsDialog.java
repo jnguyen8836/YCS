@@ -12,10 +12,9 @@ import android.os.Bundle;
 @SuppressLint("NewApi")
 public class PockyFactsDialog extends DialogFragment {
 	
-	private static PockyFactsDialog pockyFactsDialog;
+	private static volatile PockyFactsDialog pockyFactsDialog;
 	
-	private PockyFactsDialog() {
-	}
+	private PockyFactsDialog() { }
 	
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -47,15 +46,19 @@ public class PockyFactsDialog extends DialogFragment {
     	return dialog;
  
     }
-    
+
     public static PockyFactsDialog getInstance() {
     	if (pockyFactsDialog == null) {
-        	pockyFactsDialog = new PockyFactsDialog();
-    	    
-        }    
+			synchronized (PockyFactsDialog.class) {
+				if (pockyFactsDialog == null) {
+					pockyFactsDialog = new PockyFactsDialog();
+				}
+			}
+		}
+
         return pockyFactsDialog;
     }
-    
+
     public void showDialog() {
         DialogFragment newFragment = PockyFactsDialog.getInstance();
         newFragment.show(getFragmentManager(), "dialog");
