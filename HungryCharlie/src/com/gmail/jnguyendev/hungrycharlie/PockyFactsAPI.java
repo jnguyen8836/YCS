@@ -14,7 +14,7 @@ import android.os.StrictMode;
 public class PockyFactsAPI {
 
 	private static final int SERVERPORT = 80;
-	private static final String SERVER_IP = "android.lf.lc";
+	private static final String SERVER_IP = "24.155.246.254";
     private static final String HTTP_REQUEST = "GET / HTTP/1.0\r\nHost: android.lf.lc\r\n\r\n";
 	
 	public static String getFact() {
