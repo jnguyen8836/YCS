@@ -6,11 +6,11 @@ import com.gmail.jnguyendev.hungrycharlie.PockyFacts;
 
 public class PockyFactsTest extends AndroidTestCase {
 
-	private static final int REPEAT_ITERATIONS = 100000;
+	private static final int REPEAT_ITERATIONS = 1000;
 	private PockyFacts facts;
 	
 	public void setUp() {
-		facts = PockyFacts.newInstance();
+		facts = PockyFacts.getInstance();
 	}
 
 	public void tearDown() { }

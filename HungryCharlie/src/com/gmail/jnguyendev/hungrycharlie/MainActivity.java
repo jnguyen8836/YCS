@@ -69,6 +69,7 @@ public class MainActivity extends Activity implements
                 // unlock the following method for $25
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
+        GooglePlay.getInstance().setApi(mGoogleApiClient);
 	}
 	
 	public void openHungryCharlie(View view) throws IOException {

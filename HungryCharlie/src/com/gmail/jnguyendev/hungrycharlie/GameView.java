@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import com.google.android.gms.games.Games;
+
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -408,6 +410,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 								thread.setState(STATE_FINISHED);
 //								mGameActivity.recreate();
 //								mGameActivity.finish();
+
+								GooglePlay.getInstance().submitScore(currentTime - startTime);
 								DialogFragment fragment = YouWinDialog.getInstance();
 								fragment.setCancelable(false);
 								fragment.show(mGameActivity.getFragmentManager(), "dialog");
