@@ -20,7 +20,8 @@
         android:paddingTop="7dp"
         android:text="Sign In"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/textview_username"
@@ -33,7 +34,8 @@
         android:text="username"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/primary_text_light"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/button_hungry_charlie"
@@ -48,7 +50,8 @@
         android:text="Hungry Charlie"
         android:textColor="#ffffff"
         android:textSize="15sp"
-        android:width="150dp" />
+        android:width="150dp"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/button_pocky_stats"
@@ -62,7 +65,8 @@
         android:text="Pocky Stats"
         android:textColor="#ffffff"
         android:textSize="15sp"
-        android:width="150dp" />
+        android:width="150dp"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/button_pocky_facts"
@@ -76,7 +80,8 @@
         android:text="Pocky Facts"
         android:textColor="#ffffff"
         android:textSize="15sp"
-        android:width="150dp" />
+        android:width="150dp"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/button_leaderboard"

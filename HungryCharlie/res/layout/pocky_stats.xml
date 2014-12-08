@@ -34,7 +34,8 @@
 	        android:width="113dp" 
 	        android:layout_column="1"
 	        android:gravity="center_vertical|center_horizontal"
-	        android:layout_row="1"/>
+	        android:layout_row="1"
+	        android:textAllCaps="false"/>
 	
 	    <Button
 	        android:id="@+id/length_button"
@@ -46,7 +47,8 @@
 	        android:textColor="#ffffff" 
 	        android:layout_column="1"
 	        android:gravity="center_vertical|center_horizontal"
-	        android:layout_row="2"/>
+	        android:layout_row="2"
+	        android:textAllCaps="false"/>
 	
 	    <Button
 	        android:id="@+id/weight_button"
@@ -58,7 +60,8 @@
 	        android:textColor="#ffffff" 
 	        android:layout_column="1"
 	        android:gravity="center_vertical|center_horizontal"
-	        android:layout_row="3"/>
+	        android:layout_row="3"
+	        android:textAllCaps="false"/>
 	
 	    <Spinner
 	        android:id="@+id/length_spinner"
@@ -144,7 +147,8 @@
 	        android:layout_column="1"
 	        android:layout_gravity="center_vertical|center_horizontal"
 	        android:layout_row="5"
-	        android:layout_columnSpan="2"/>
+	        android:layout_columnSpan="2"
+	        android:textAllCaps="false"/>
 	    
 	</GridLayout>
 </LinearLayout>
