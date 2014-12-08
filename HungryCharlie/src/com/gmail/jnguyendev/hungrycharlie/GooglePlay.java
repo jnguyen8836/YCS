@@ -36,13 +36,19 @@ public class GooglePlay {
 		return mApi;
 	}
 
+	public boolean isSignedIn() {
+        return (mApi != null && mApi.isConnected());
+    }
+
 	public void submitScore(long l) {
-		Games.Leaderboards.submitScoreImmediate(mApi, LEADERBOARD, l);
-		if (l <= 5000) Games.Achievements.unlock(mApi, ACHIEVEMENT_05SEC);
-		if (l <= 10000) Games.Achievements.unlock(mApi, ACHIEVEMENT_10SEC);
-		if (l <= 30000) Games.Achievements.unlock(mApi, ACHIEVEMENT_30SEC);
-		if (l <= 60000) Games.Achievements.unlock(mApi, ACHIEVEMENT_01MIN);
-		if (l <= 180000) Games.Achievements.unlock(mApi, ACHIEVEMENT_03MIN);
+		if (isSignedIn()) {
+			Games.Leaderboards.submitScoreImmediate(mApi, LEADERBOARD, l);
+			if (l <= 5000) Games.Achievements.unlock(mApi, ACHIEVEMENT_05SEC);
+			if (l <= 10000) Games.Achievements.unlock(mApi, ACHIEVEMENT_10SEC);
+			if (l <= 30000) Games.Achievements.unlock(mApi, ACHIEVEMENT_30SEC);
+			if (l <= 60000) Games.Achievements.unlock(mApi, ACHIEVEMENT_01MIN);
+			if (l <= 180000) Games.Achievements.unlock(mApi, ACHIEVEMENT_03MIN);
+		}
 	}
 
 }
