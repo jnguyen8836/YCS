@@ -78,4 +78,21 @@
         android:textSize="15sp"
         android:width="150dp" />
 
+    <Button
+        android:id="@+id/button_leaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textview_username"
+        android:layout_alignBottom="@+id/textview_username"
+        android:layout_toLeftOf="@+id/button_sign_in"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openLeaderboard"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"
+        android:text="Leaderboards"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:textAllCaps="false" />
+
 </RelativeLayout>

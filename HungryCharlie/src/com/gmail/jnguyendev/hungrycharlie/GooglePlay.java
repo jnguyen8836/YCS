@@ -1,5 +1,7 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
+import android.content.Intent;
+
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
@@ -49,6 +51,10 @@ public class GooglePlay {
 			if (l <= 60000) Games.Achievements.unlock(mApi, ACHIEVEMENT_01MIN);
 			if (l <= 180000) Games.Achievements.unlock(mApi, ACHIEVEMENT_03MIN);
 		}
+	}
+
+	public Intent showLeaderboard() {
+		return Games.Leaderboards.getAllLeaderboardsIntent(mApi);
 	}
 
 }

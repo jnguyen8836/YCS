@@ -29,11 +29,12 @@ public class MainActivity extends Activity implements
 	private Button btnPockyStats;
 	private Button btnPockyFacts;
 	private Button btnSignIn;
+	private Button btnLeaderboard;
 	private TextView txtUsername;
 
 	private GoogleApiClient mGoogleApiClient;
     final String TAG = "HungryCharlie";
-	private enum ResponseCode { RC_SIGNIN };
+	private enum ResponseCode { RC_SIGNIN, RC_LEADER };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,10 @@ public class MainActivity extends Activity implements
 		btnSignIn = (Button)findViewById(R.id.button_sign_in);
 		btnSignIn.setTypeface(typeGoodDog);
 		btnSignIn.setTextSize(18);
+
+		btnLeaderboard = (Button)findViewById(R.id.button_leaderboard);
+		btnLeaderboard.setTypeface(typeGoodDog);
+		btnLeaderboard.setTextSize(18);
 
 		txtUsername = (TextView)findViewById(R.id.textview_username);
 		txtUsername.setTypeface(typeGoodDog);
@@ -86,6 +91,11 @@ public class MainActivity extends Activity implements
 		showDialog();
 	}
 	
+	public void openLeaderboard(View view) {
+		startActivityForResult(GooglePlay.getInstance().showLeaderboard(),
+				ResponseCode.RC_LEADER.ordinal());
+	}
+
 	private void showDialog() {
 		DialogFragment fragment = PockyFactsFromHomeDialog.getInstance();
 		fragment.show(getFragmentManager(), "dialog");
@@ -99,6 +109,7 @@ public class MainActivity extends Activity implements
 			mGoogleApiClient.disconnect();
 
 			btnSignIn.setText("Sign In");
+			btnLeaderboard.setVisibility(View.INVISIBLE);
 			txtUsername.setVisibility(View.INVISIBLE);
 		} else {
 			mGoogleApiClient.connect();
@@ -112,13 +123,16 @@ public class MainActivity extends Activity implements
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent intent) {
         super.onActivityResult(requestCode, responseCode, intent);
+        Log.d(TAG, "onActivityResult with requestCode=" + requestCode
+                + ", responseCode=" + responseCode + ", intent=" + intent);
         switch (ResponseCode.values()[requestCode]) {
 	        case RC_SIGNIN:
-	            Log.d(TAG, "onActivityResult with requestCode == RC_SIGN_IN, responseCode="
-	                + responseCode + ", intent=" + intent);
 	            if (responseCode == RESULT_OK) {
 		            mGoogleApiClient.connect();
 	            }
+	            break;
+	        case RC_LEADER:
+                break;
 	    }
 
     }
@@ -157,6 +171,7 @@ public class MainActivity extends Activity implements
         
         txtUsername.setText(displayName);
         txtUsername.setVisibility(View.VISIBLE);
+        btnLeaderboard.setVisibility(View.VISIBLE);
         btnSignIn.setText("Sign Out");
 	}
 

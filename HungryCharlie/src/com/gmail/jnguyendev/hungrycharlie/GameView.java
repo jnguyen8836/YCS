@@ -410,8 +410,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 								thread.setState(STATE_FINISHED);
 //								mGameActivity.recreate();
 //								mGameActivity.finish();
-
-								GooglePlay.getInstance().submitScore(currentTime - startTime);
+								GooglePlay.getInstance().submitScore(currentTime);
 								DialogFragment fragment = YouWinDialog.getInstance();
 								fragment.setCancelable(false);
 								fragment.show(mGameActivity.getFragmentManager(), "dialog");
