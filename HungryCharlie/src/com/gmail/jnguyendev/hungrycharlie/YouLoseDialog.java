@@ -3,6 +3,7 @@ package com.gmail.jnguyendev.hungrycharlie;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -13,9 +14,9 @@ import android.os.Bundle;
 public class YouLoseDialog extends DialogFragment {
 	
 	private static YouLoseDialog youLoseDialog;
+	private OnClickListener mGameListener;
 	
-	private YouLoseDialog() {
-	}
+	private YouLoseDialog() { }
 	
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,7 +28,9 @@ public class YouLoseDialog extends DialogFragment {
         builder.setView(inflater.inflate(R.layout.you_lose, null))
     		   .setNeutralButton("Next", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
-    				   DialogFragment fragment = PockyFactsDialog.getInstance();
+    				   PockyFactsDialog fragment = PockyFactsDialog.getInstance();
+    				   fragment.setOnClickListener(mGameListener);
+    				   fragment.setCancelable(false);
     				   fragment.show(getFragmentManager(), "dialog");
     			   }
     		   })
@@ -45,6 +48,10 @@ public class YouLoseDialog extends DialogFragment {
     	    
         }    
         return youLoseDialog;
+    }
+
+    public void setOnClickListener(DialogInterface.OnClickListener l) {
+    	mGameListener = l;
     }
     
     public void showDialog() {

@@ -1,16 +1,15 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import com.google.android.gms.games.Games;
-
-import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +20,7 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -74,6 +74,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	private long startTime = 0;
 	private long currentTime;
+	
+	private Bitmap safe_tile;
+	private Bitmap danger_tile;
 
 	/**
 	 * GameTile instances for each game tile used by the current level.
@@ -190,16 +193,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			if(mGameState == GameView.STATE_RUNNING) {
 				if(startTime != 0) {
 					currentTime = SystemClock.elapsedRealtime() - startTime;
-				} 
-				else {
+				}  else {
 					currentTime = 0;
 				}
-			}
-			if(currentTime/60000 > 0) {
-				canvas.drawText(String.format("%02d:%02d.%03d", currentTime/60000, currentTime/1000 % 60, currentTime % 1000), 30, mScreenYMax/20, mUiTextPaint);
-			}
-			else {
-				canvas.drawText(String.format("%02d.%03d", currentTime/1000 % 60, currentTime % 1000), 30, mScreenYMax/20, mUiTextPaint);
+				canvas.drawText((new SimpleDateFormat("mm:ss.SSS")).format(currentTime), 30, mScreenYMax / 20, mUiTextPaint);
 			}
 		}
 
@@ -254,6 +251,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		mUiTextPaint.setColor(Color.WHITE);
 		mUiTextPaint.setAntiAlias(true);
 		
+		GameImage tmp = new GameImage(mGameContext, R.drawable.safe_tile);
+		safe_tile = Bitmap.createScaledBitmap(tmp.getBitmap(), mScreenXMax/4, mScreenYMax/4, false);
+		tmp = new GameImage(mGameContext, R.drawable.danger_tile);
+		danger_tile = Bitmap.createScaledBitmap(tmp.getBitmap(), mScreenXMax/4, mScreenYMax/4, false);
+		
 		Typeface uiTypeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Medium.ttf");
 		if(uiTypeface != null) {
 			mUiTextPaint.setTypeface(uiTypeface);
@@ -269,6 +271,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread.doStart();
 	}
 
+	public void restart() {
+		boolean retry = true;
+		thread.setRunning(false);
+		while(retry) {
+			try {
+				thread.join();
+				retry = false;
+			} 
+			catch (InterruptedException e) {
+				Log.e("HungryCharlie", e.getMessage());
+			}
+		}
+		mGameTiles.clear();
+		
+		thread = new GameThread(mGameSurfaceHolder, getContext(), null);
+		
+		Point point = new Point(0, -1*MAX_TILES*mScreenYMax/4 - mScreenYMax);
+		GameTile gameTile = new GameTile(mGameContext, R.drawable.canvas_bg_01, point);
+		gameTile.setBitmap(Bitmap.createScaledBitmap(gameTile.getBitmap(), mScreenXMax, mScreenYMax, false));
+		mGameTiles.add(gameTile);
+
+		tileCount = 0;
+		tapCount = 0;
+		startTime = 0;
+		mGameRun = true;
+		updatingGameTiles = false;
+
+		startLevel();
+		thread.setRunning(true);
+		thread.start();
+		thread.doStart();
+	}
+	
 	/**
 	 * Gets the game thread.
 	 * @return GameThread
@@ -291,13 +326,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	public void surfaceCreated(SurfaceHolder holder) {
 		// start the thread here so that we don't busy-wait in run()
 		// waiting for the surface to be created
-
 		if(thread.getState() == Thread.State.TERMINATED) {
 			thread = new GameThread(holder, getContext(), new Handler());
 			thread.setRunning(true);
 			thread.start();
 			thread.doStart();
-			startLevel();
+			startTime = SystemClock.elapsedRealtime() - currentTime;
 		}
 		else {
 			thread.setRunning(true);
@@ -351,9 +385,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 				GameTile gameTile;
 				for (int i = 0; i < 4; i++) {
 					Point point = new Point(i * mScreenXMax/4, 0);
-					int drawable = (i == safe) ? R.drawable.safe_tile : R.drawable.danger_tile;
-					gameTile = new GameTile(mGameContext, drawable, point);
-					gameTile.setBitmap(Bitmap.createScaledBitmap(gameTile.getBitmap(), mScreenXMax/4, mScreenYMax/4, false));
+					Bitmap tile = (i == safe) ? safe_tile : danger_tile; // R.drawable.safe_tile : R.drawable.danger_tile;
+					gameTile = new GameTile(tile, point);
 					gameTile.setType((i == safe) ? GameTile.TYPE_EMPTY : GameTile.TYPE_DANGEROUS);
 					mGameTiles.add(gameTile);
 				}
@@ -392,8 +425,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		switch (eventAction) {
 			case MotionEvent.ACTION_DOWN:
 				if (mGameState == STATE_RUNNING) {
-					
-
 					final int x = (int) event.getX();
 					final int y = (int) event.getY();
 					GameTile safe = findSafeTile();
@@ -408,21 +439,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 							}
 							else {	
 								thread.setState(STATE_FINISHED);
-//								mGameActivity.recreate();
-//								mGameActivity.finish();
 								GooglePlay.getInstance().submitScore(currentTime);
-								DialogFragment fragment = YouWinDialog.getInstance();
+								YouWinDialog fragment = YouWinDialog.getInstance();
+								fragment.setOnClickListener(new GameListener(this));
+								fragment.setScore(currentTime);
 								fragment.setCancelable(false);
 								fragment.show(mGameActivity.getFragmentManager(), "dialog");
 							}
 						}
 						else if(y > (mScreenYMax - mScreenYMax/4)){
-							// TODO: show "You lost" message
 							thread.setState(STATE_FINISHED);
-							DialogFragment fragment = YouLoseDialog.getInstance();
+							YouLoseDialog fragment = YouLoseDialog.getInstance();
+							fragment.setOnClickListener(new GameListener(this));
 							fragment.setCancelable(false);
 							fragment.show(mGameActivity.getFragmentManager(), "dialog");
-						}	
+						}
 					}
 				}
 				break;
@@ -431,5 +462,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 
 		return true;
+	}
+	
+	class GameListener implements DialogInterface.OnClickListener {
+
+		private GameView mGameView = null;
+		
+		public GameListener(GameView v) {
+			mGameView = v;
+		}
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			mGameView.restart();
+		}
+		
 	}
 }

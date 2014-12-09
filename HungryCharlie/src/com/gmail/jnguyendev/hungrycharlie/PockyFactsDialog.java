@@ -3,6 +3,7 @@ package com.gmail.jnguyendev.hungrycharlie;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 public class PockyFactsDialog extends DialogFragment {
 	
 	private static volatile PockyFactsDialog pockyFactsDialog;
+	private OnClickListener mGameListener = null;
 	
 	private PockyFactsDialog() { }
 	
@@ -26,14 +28,7 @@ public class PockyFactsDialog extends DialogFragment {
 
         builder.setCustomTitle(inflater.inflate(R.layout.pocky_facts, null))
 	           .setMessage(pockyFact.getFact())
-    		   .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
-    			   public void onClick(DialogInterface dialog, int id) {
-    	               // Restart Hungry Charlie!
-    				   Intent intent = new Intent(getActivity(), HungryCharlie.class);
-    				   getActivity().finish();
-    				   startActivity(intent);
-    			   }
-    		   })
+    		   .setPositiveButton("Play Again", mGameListener)
     		   .setNegativeButton("Return Home", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
     				   // Return to Home Screen
@@ -57,6 +52,10 @@ public class PockyFactsDialog extends DialogFragment {
 		}
 
         return pockyFactsDialog;
+    }
+
+    public void setOnClickListener(DialogInterface.OnClickListener l) {
+    	mGameListener = l;
     }
 
     public void showDialog() {

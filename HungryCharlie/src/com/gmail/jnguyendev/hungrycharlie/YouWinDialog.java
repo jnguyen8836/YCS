@@ -1,8 +1,11 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
+import java.text.SimpleDateFormat;
+
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -13,6 +16,8 @@ import android.os.Bundle;
 public class YouWinDialog extends DialogFragment {
 	
 	private static YouWinDialog youWinDialog;
+	private OnClickListener mGameListener;
+	private String mMessage;
 	
 	private YouWinDialog() {
 	}
@@ -24,14 +29,16 @@ public class YouWinDialog extends DialogFragment {
     	
     	LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        builder.setView(inflater.inflate(R.layout.you_win, null))
+        builder.setCustomTitle(inflater.inflate(R.layout.you_win, null))
+    		   .setMessage(mMessage)
     		   .setNeutralButton("Next", new DialogInterface.OnClickListener() {
     			   public void onClick(DialogInterface dialog, int id) {
-    				   DialogFragment fragment = PockyFactsDialog.getInstance();
+    				   PockyFactsDialog fragment = PockyFactsDialog.getInstance();
+    				   fragment.setOnClickListener(mGameListener);
+    				   fragment.setCancelable(false);
     				   fragment.show(getFragmentManager(), "dialog");
     			   }
-    		   })
-    		   ;
+    		   });
 
     	AlertDialog dialog = builder.create();
     	
@@ -42,14 +49,21 @@ public class YouWinDialog extends DialogFragment {
     public static YouWinDialog getInstance() {
     	if (youWinDialog == null) {
     		youWinDialog = new YouWinDialog();
-    	    
         }    
         return youWinDialog;
     }
-    
+
+    public void setOnClickListener(DialogInterface.OnClickListener l) {
+    	mGameListener = l;
+    }
+
     public void showDialog() {
         DialogFragment newFragment = YouWinDialog.getInstance();
         newFragment.show(getFragmentManager(), "dialog");
     }
+
+	public void setScore(long currentTime) {
+		mMessage = "Score: " + (new SimpleDateFormat("mm:ss.SSS")).format(currentTime);
+	}
     
 }

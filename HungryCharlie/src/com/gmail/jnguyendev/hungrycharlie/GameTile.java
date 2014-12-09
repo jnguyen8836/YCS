@@ -1,8 +1,10 @@
 package com.gmail.jnguyendev.hungrycharlie;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 
 /**
  * An extension of GameImage, GameTile represents a tile used to build
@@ -40,6 +42,14 @@ public class GameTile extends GameImage
 	{
 		super(context, drawable);
 		
+		this.mX = point.x;
+		this.mY = point.y;
+	}
+	
+	public GameTile(Bitmap bitmap, Point point)
+	{
+		super(bitmap);
+
 		this.mX = point.x;
 		this.mY = point.y;
 	}

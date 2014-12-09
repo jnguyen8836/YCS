@@ -30,6 +30,11 @@ public class GameImage
 		this.setDrawable(context, drawable);
 	}
 
+	public GameImage(Bitmap bitmap)
+	{
+		this.setBitmap(bitmap);
+	}
+	
 	public void setDrawable(Context context, int drawable)
 	{
 		BitmapFactory.Options opts = new BitmapFactory.Options();
