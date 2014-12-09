@@ -3,6 +3,7 @@ package com.gmail.jnguyendev.hungrycharlie;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -26,6 +27,7 @@ public class HungryCharlie extends Activity {
 
 	private DisplayMetrics mMetrics = new DisplayMetrics();
 	private float mScreenDensity;
+	private MediaPlayer mMediaPlayer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,12 +79,37 @@ public class HungryCharlie extends Activity {
 		return false;
 	}
 	
+	public void createMediaPlayer() {
+		mMediaPlayer = MediaPlayer.create(this, R.raw.pocky);
+	    mMediaPlayer.setLooping(true);
+	    mMediaPlayer.start();
+	}
+	
+	public void releaseMediaPlayer() {
+		if (mMediaPlayer != null) mMediaPlayer.release();
+	}
+	
 	/**
 	 * Invoked when the Activity loses user focus.
 	 */
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mGameView.getThread().setState(GameView.STATE_PAUSED); // pause game when Activity pauses
+		mMediaPlayer.stop();
+		mGameView.getThread().setState(GameView.STATE_PAUSED);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		releaseMediaPlayer();
+		createMediaPlayer();
+		mGameView.getThread().setState(GameView.STATE_RUNNING);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mMediaPlayer.release();
 	}
 }
