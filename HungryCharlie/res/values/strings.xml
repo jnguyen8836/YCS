@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hungry Charlie</string>
+    <string name="app_name">Charlie + Pockylate Factory</string>
     
     <string name="about_text">Tile game example using Android canvas.</string>
     <string name="about_open_source">The code used to create this example is open-source:</string>
