@@ -29,6 +29,7 @@ public class MainActivity extends Activity implements
 	private Button btnPockyStats;
 	private Button btnPockyFacts;
 	private Button btnSignIn;
+	private Button btnAbout;
 	private Button btnLeaderboard;
 	private TextView txtUsername;
 
@@ -58,6 +59,10 @@ public class MainActivity extends Activity implements
 		btnSignIn = (Button)findViewById(R.id.button_sign_in);
 		btnSignIn.setTypeface(typeGoodDog);
 		btnSignIn.setTextSize(18);
+		
+		btnAbout = (Button)findViewById(R.id.button_about);
+		btnAbout.setTypeface(typeGoodDog);
+		btnAbout.setTextSize(25);
 
 		btnLeaderboard = (Button)findViewById(R.id.button_leaderboard);
 		btnLeaderboard.setTypeface(typeGoodDog);
@@ -84,6 +89,11 @@ public class MainActivity extends Activity implements
 	
 	public void openPockyStats(View view) throws IOException {
 		Intent intent = new Intent(this, PockyStats.class);
+		startActivity(intent);
+	}
+	
+	public void openAbout(View view) throws IOException {
+		Intent intent = new Intent(this, About.class);
 		startActivity(intent);
 	}
 	

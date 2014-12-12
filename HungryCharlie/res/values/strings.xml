@@ -2,7 +2,13 @@
 <resources>
     <string name="app_name">Charlie + Pockylate Factory</string>
     
-    <string name="about_text">Tile game example using Android canvas.</string>
+    <string name="about_text">How to Play: \n \n Help Charlie go up the river, 
+        		towards	the Pockylate Factory, by tapping on the Pocky box in the bottom
+        		row. As you select Charlie\'s path, Charlie will move up the river so you can always
+        		select Charlie\'s next jump by selecting a tile in the bottom row. 
+        		Be careful not to tap the water! Charlie cannot swim. 
+        		\n \n
+        		Pocky Stats is a tool that can convert common units into terms of Pocky sticks and boxes. </string>
     <string name="about_open_source">The code used to create this example is open-source:</string>
     <string name="about_link">http://ruscoe.org/code/</string>
     
