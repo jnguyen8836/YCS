@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.ruscoe.example.tilegame.GameImage;
+import org.ruscoe.example.tilegame.GameTile;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -440,7 +443,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 							else {	
 								thread.setState(STATE_FINISHED);
 								GooglePlay.getInstance().submitScore(currentTime);
-								YouWinDialog fragment = YouWinDialog.getInstance();
+								HungryCharlieYouWinDialog fragment = HungryCharlieYouWinDialog.getInstance();
 								fragment.setOnClickListener(new GameListener(this));
 								fragment.setScore(currentTime);
 								fragment.setCancelable(false);
@@ -449,7 +452,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 						}
 						else if(y > (mScreenYMax - mScreenYMax/4)){
 							thread.setState(STATE_FINISHED);
-							YouLoseDialog fragment = YouLoseDialog.getInstance();
+							HungryCharlieYouLoseDialog fragment = HungryCharlieYouLoseDialog.getInstance();
 							fragment.setOnClickListener(new GameListener(this));
 							fragment.setCancelable(false);
 							fragment.show(mGameActivity.getFragmentManager(), "dialog");
