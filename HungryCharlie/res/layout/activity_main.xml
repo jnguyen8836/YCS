@@ -36,52 +36,6 @@
         android:textColor="@android:color/primary_text_light"
         android:visibility="invisible"
         android:textAllCaps="false" />
-    
-    <Button
-        android:id="@+id/button_about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_hungry_charlie"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="17dp"
-        android:background="@drawable/custom_button_selector"
-        android:onClick="openAbout"
-        android:text="About"
-        android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:width="150dp"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/button_hungry_charlie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_pocky_facts"
-        android:layout_alignLeft="@+id/button_about"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/custom_button_selector"
-        android:onClick="openHungryCharlie"
-        android:text="Hungry Charlie"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:width="150dp" />
-
-    <Button
-        android:id="@+id/button_pocky_facts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_pocky_stats"
-        android:layout_alignLeft="@+id/button_hungry_charlie"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/custom_button_selector"
-        android:onClick="openPockyFacts"
-        android:text="Pocky Facts"
-        android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:width="150dp"
-        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/button_leaderboard"
@@ -100,13 +54,60 @@
         android:visibility="invisible"
         android:textAllCaps="false" />
 
+    
+    <Button
+        android:id="@+id/button_pocky_facts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_pocky_stats"
+        android:layout_alignLeft="@+id/button_about"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openPockyFacts"
+        android:text="Pocky Facts"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:width="150dp" />
+
+    <Button
+        android:id="@+id/button_hungry_charlie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_pocky_facts"
+        android:layout_alignLeft="@+id/button_about"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openHungryCharlie"
+        android:text="Hungry Charlie"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:width="150dp" />
+    
+    <Button
+        android:id="@+id/button_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="18dp"
+        android:background="@drawable/custom_button_selector"
+        android:onClick="openAbout"
+        android:text="About"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:width="150dp" />
+
     <Button
         android:id="@+id/button_pocky_stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_pocky_facts"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="43dp"
+        android:layout_above="@+id/button_about"
+        android:layout_alignLeft="@+id/button_about"
+        android:layout_marginBottom="18dp"
         android:background="@drawable/custom_button_selector"
         android:onClick="openPockyStats"
         android:text="Pocky Stats"

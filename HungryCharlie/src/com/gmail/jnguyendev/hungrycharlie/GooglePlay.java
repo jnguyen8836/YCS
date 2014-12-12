@@ -6,7 +6,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
 public class GooglePlay {
-	private static final String LEADERBOARD = "CgkI3dmynLAbEAIQCA";
+	private static final String LEADERBOARD = "CgkI3dmynLAbEAIQCQ";
 	private static final String ACHIEVEMENT_03MIN = "CgkI3dmynLAbEAIQAQ";
 	private static final String ACHIEVEMENT_01MIN = "CgkI3dmynLAbEAIQAg";
 	private static final String ACHIEVEMENT_30SEC = "CgkI3dmynLAbEAIQAw";
@@ -54,7 +54,7 @@ public class GooglePlay {
 	}
 
 	public Intent showLeaderboard() {
-		return Games.Leaderboards.getAllLeaderboardsIntent(mApi);
+		return Games.Leaderboards.getLeaderboardIntent(mApi, LEADERBOARD);
 	}
 
 }

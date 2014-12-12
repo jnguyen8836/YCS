@@ -73,7 +73,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	private int tileCount = 0;
 	private int tapCount = 0;
-	private int MAX_TILES = 10;
+	private int MAX_TILES = 25;
 	
 	private long startTime = 0;
 	private long currentTime;
