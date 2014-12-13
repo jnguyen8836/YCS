@@ -39,7 +39,7 @@ public class PockyFacts extends Activity {
     	PockyList.add("In Europe, Pocky is called Mikado!");
     	PockyList.add("International Pocky day is November 11th!");
     	PockyList.add("The American indie rock band Superchunk released an album named 'No Pocky for Kitty'.");
-    	PockyList.add("Glico, the makers of Pocky, is actualy short for glycogen!");
+    	PockyList.add("Glico, the makers of Pocky, is actually short for glycogen!");
     	PockyList.add("Pocky is currently sold in 30 countries.");
     	PockyList.add("A tribute to Kobe, Japan, there is Kobe Wine flavored Pocky!");
     	PockyList.add("A person or group of people known only as 'The Monster with 21 Faces' kidnapped the president of Glico in 1984.");

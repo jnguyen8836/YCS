@@ -2,17 +2,41 @@
 <resources>
     <string name="app_name">Charlie + Pockylate Factory</string>
     
-    <string name="about_text">How to Play: \n \n Help Charlie go up the river, 
-        		towards	the Pockylate Factory, by tapping on the Pocky box in the bottom
-        		row. As you select Charlie\'s path, Charlie will move up the river so you can always
-        		select Charlie\'s next jump by selecting a tile in the bottom row. 
-        		Be careful not to tap the water! Charlie cannot swim. 
-        		\n \n
-        		Pocky Stats is a tool that can convert common units into terms of Pocky sticks and boxes.
-        		\n \n \n
-Image credits: 水玉子 from pixiv.net, 繁小兔喵 from it.me, ©2011-2014 Fox-feathers from DeviantArt, ©2009-2014 A-Little-Kitty DeviantArt, ©2009-2014 milkbun from DeviantArt, ©2012-2014 ppshex from DeviantArt, VectorStock
-Font: Good Dog by Fonthead Design
-Music: Dance2 by ORANGE RANGE</string>
+    <string name="about_text">
+        <font size="72"><b>ABOUT</b></font>\n
+        \n 
+        <b>How to Play Hungry Charlie</b>\n
+        \n 
+        Help Charlie go up the river, 
+        towards	the Pockylate Factory, by tapping on the Pocky box in the bottom
+        row. As you select Charlie\'s path, Charlie will move up the river so you can always
+        select Charlie\'s next jump by selecting a tile in the bottom row. 
+        Be careful not to tap the water! Charlie cannot swim. \n
+        \n
+        <b>What is Pocky Stats?</b>\n
+        \n
+        Pocky Stats is a tool that can convert common units into terms of Pocky sticks and boxes. 
+        We use the original chocolate Pocky stick and standard 38-stick Pocky box for our conversions. 
+        For example, 20g converts to 8.1 Pocky sticks because 8.1 Pocky sticks weighs 20g. 
+        \n \n
+		<b>Image credits</b>\n
+		\n
+		水玉子 from pixiv.net\n
+		繁小兔喵 from it.me\n
+		©2011-2014 Fox-feathers from DeviantArt\n
+		©2009-2014 A-Little-Kitty DeviantArt\n
+		©2009-2014 milkbun from DeviantArt\n
+		©2012-2014 ppshex from DeviantArt, VectorStock\n
+		Font: Good Dog by Fonthead Design\n
+		Music: Dance2 by ORANGE RANGE\n
+		\n
+		The code used to create this example is open-source:\n
+		https://github.com/ruscoe/Android-Tile-Based-Game\n
+		\n
+		<b>Developed by</b>\n
+		\n
+		Yummy Chocosticks\n
+	</string>
     <string name="about_open_source">The code used to create this example is open-source:</string>
     <string name="about_link">http://ruscoe.org/code/</string>
     
